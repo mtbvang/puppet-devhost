@@ -73,9 +73,3 @@ know what the ground rules for contributing are.
 If you aren't using changelog, put your release notes here (though you should
 consider using changelog). You may also add any additional sections you feel are
 necessary or important to include here. Please use the `## ` header.
-=======
-devhost
-=======
-
-A puppet module for provisioning development host machines with the tools for container and VM based development environments.
->>>>>>> branch 'master' of https://github.com/mtbvang/devhost.git
