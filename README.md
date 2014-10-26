@@ -1,5 +1,3 @@
-# devhost
-
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -15,9 +13,7 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+A puppet module for provisioning development host machines with the tools for container and VM based development environments.
 
 ## Module Description
 
@@ -77,3 +73,9 @@ know what the ground rules for contributing are.
 If you aren't using changelog, put your release notes here (though you should
 consider using changelog). You may also add any additional sections you feel are
 necessary or important to include here. Please use the `## ` header.
+=======
+devhost
+=======
+
+A puppet module for provisioning development host machines with the tools for container and VM based development environments.
+>>>>>>> branch 'master' of https://github.com/mtbvang/devhost.git
