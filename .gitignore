@@ -1,1 +1,8 @@
 /.project
+/pkg
+/.vagrant
+/.tmp
+/.librarian
+/build
+/Puppetfile.lock
+/.settings

@@ -1,41 +1,55 @@
 # == Class: devhost
 #
-# Full description of class devhost here.
+# Provision a base OS with the tools to do vagrant, docker and vbox based development.
 #
 # === Parameters
 #
 # Document parameters here.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [username]
+#   User account that development work will be done under.
+#
 #
 # === Variables
 #
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+#  No variables
 #
 # === Examples
 #
-#  class { devhost:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+#  class { devhost: }
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Vang Nguyen <mtb.vang@gmail.com>
 #
-# === Copyright
-#
-# Copyright 2014 Your name here, unless otherwise noted.
-#
-class devhost {
+class devhost ($username = 'dev') inherits params {
+  Exec {
+    path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 
+  $updatePkgManager = $devhost::params::updatePkgManager
+
+  exec { "updatePackageManager":
+    command => $updatePkgManager,
+    timeout => 600
+  }
+
+  case $::osfamily {
+    'Debian' : {
+      #class { 'apt': }
+
+      case $::lsbdistcodename {
+        'trusty' : {
+          class { 'devhost::ubuntu::trusty': require => [Exec["updatePackageManager"], ] }
+        }
+        default  : {
+          fail("Unsupported Debian distribution: ${::lsbdistcodename}")
+        }
+      }
+    }
+    default  : {
+      fail("Unsupported OS Family: ${::osfamily}")
+    }
+  }
 
 }
+
