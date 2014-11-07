@@ -32,7 +32,7 @@ class devhost::ubuntu::eclipse (
       'org.eclipse.cdt.gnu.build.feature.group/8.3.0.201402142303',
       'org.eclipse.cdt.gnu.debug.feature.group/8.3.0.201402142303',
       'org.eclipse.cdt.testsrunner.feature.feature.group/8.3.0.201402142303',
-      'org.eclipse.php.feature.group/3.3.2.201410231314',
+      'org.eclipse.php.feature.group/3.2.0.201306051924',
       'org.slf4j.api/1.7.2.v20121108-1250',
       'ch.qos.logback.classic/1.0.7.v20121108-1250'],
     checkforpluginfolders => [
