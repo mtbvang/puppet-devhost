@@ -26,6 +26,24 @@
 # uninstallPkgs
 #   Array. Packages to uninstall.
 #
+# dockerVersion
+#   String. Version of docker to install.
+#
+# dockerServiceProvier
+#   String. One of the values from the provider attribute of the service resource type.
+#
+# vagrantDownloadurl
+#   String. URL of vagrant deb package.
+#
+# vagrantHostPluginVersion
+#   String. Version of vagrant-hosts plugin.
+#
+# vagrantVbguestPluginVersion
+#   String. Version of vagrant vagrant-vbguest plugin.
+#
+# vagrantHostsupdatePluginVersion
+#   String. Version of vagrant vagrant-hostupdater plugin.
+#
 # === Variables
 #
 #  No variables
@@ -48,7 +66,10 @@ class devhost (
   $uninstallPkgs         = $devhost::params::uninstallPkgs,
   $dockerVersion         = '1.2.0',
   $dockerServiceProvider = 'upstart',
-  $vagrantDownloadUrl    = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb") inherits params {
+  $vagrantDownloadUrl    = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb",
+  $vagrantHostPluginVersion        = "2.1.5",
+  $vagrantVbguestPluginVersion     = "0.10.0",
+  $vagrantHostsupdatePluginVersion = "0.0.11") inherits params {
   Exec {
     path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 
@@ -63,7 +84,8 @@ class devhost (
     'Debian' : {
       case $::lsbdistcodename {
         'trusty' : {
-          class { 'devhost::ubuntu::trusty': require => [Exec["updatePackageManager"],] }
+          class { 'devhost::ubuntu::trusty': require => Exec["updatePackageManager"] }
+          contain devhost::ubuntu::trusty
         }
         default  : {
           fail("Unsupported Debian distribution: ${::lsbdistcodename}")

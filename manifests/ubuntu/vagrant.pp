@@ -5,9 +5,9 @@ class devhost::ubuntu::vagrant (
   $downloadUrl              = $devhost::vagrantDownloadUrl,
   $user                     = $devhost::username,
   $userHome                 = $devhost::userHome,
-  $hostPluginVersion        = "2.1.5",
-  $vbguestPluginVersion     = "0.10.0",
-  $hostsupdatePluginVersion = "0.0.11") {
+  $hostPluginVersion        = $devhost::vagrantHostPluginVersion,
+  $vbguestPluginVersion     = $devhost::vagrantVbguestPluginVersion,
+  $hostsupdatePluginVersion = $devhost::vagrantHostsupdatePluginVersion) {
   ::wget::fetch { "fetchVagrant":
     before      => Package['vagrant'],
     source      => $downloadUrl,
