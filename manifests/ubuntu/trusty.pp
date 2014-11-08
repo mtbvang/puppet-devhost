@@ -24,11 +24,21 @@ class devhost::ubuntu::trusty::install () {
 
   package { 'virtualbox': ensure => 'latest' }
 
-  class { '::devhost::ubuntu::docker': version => '1.2.0', }
+  class { '::devhost::ubuntu::docker': version => $devhost::dockerVersion, }
   contain 'devhost::ubuntu::docker'
 
   class { 'devhost::sublimetext2': }
   contain devhost::sublimetext2
+
+  class { 'devhost::ubuntu::packages': }
+
+  class { 'devhost::ruby': }
+  contain devhost::ruby
+
+  devhost::puppet::librarianpuppet { 'librarianPuppet':
+    require  => Class['devhost::ruby'],
+    userhome => "/home/${devhost::username}"
+  }
 }
 
 class devhost::ubuntu::trusty::config () {
@@ -39,23 +49,5 @@ class devhost::ubuntu::trusty::config () {
     }
   } else {
     warning('Your guest account was not disabled during provisioning.')
-  }
-}
-
-class devhost::ubuntu::trusty::packages () {
-  $installPkgs = $devhost::params::installPkgs
-
-  package { $installPkgs: ensure => 'installed' }
-
-  $uninstallPkgs = $devhost::params::uninstallPkgs
-
-  package { $uninstallPkgs: ensure => 'purged' }
-
-  class { 'devhost::ruby': }
-  contain devhost::ruby
-
-  devhost::puppet::librarianpuppet { 'librarianPuppet':
-    require  => Class['devhost::ruby'],
-    userhome => "/home/${devhost::username}"
   }
 }

@@ -1,7 +1,7 @@
 class devhost::ubuntu::docker (
-  $version          = '1.2.0',
-  $service_provider = 'init',
-  $docker_sudo_user = $devhost::params::devUser,
+  $version          = $devhost::dockerVersion,
+  $service_provider = $devhost::dockerServiceProvider,
+  $docker_sudo_user = $devhost::username,
   $service_enable   = true,
   $service_state    = 'running',
   $service_binary   = undef,

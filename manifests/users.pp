@@ -7,30 +7,21 @@ define devhost::users (
   $home     = $devhost::params::devUserHome,
   $groups   = $devhost::params::devUserGroups,
   $password = $devhost::params::devUserPassword) {
+  $rubyShadowPkg = $devhost::params::rubyShadowPkg
+
+  package { $rubyShadowPkg: ensure => installed, }
+
   if $username == undef {
-    notice("No developer user created as username not specified. ")
-  } else {
-    $rubyShadowPkg = $devhost::params::rubyShadowPkg
+    fail("A username must be defined.")
+  }
 
-    package { $rubyShadowPkg: ensure => installed, }
-
-    if member($groups, 'sudo') {
-      file { "/etc/sudoers.d/${username}":
-        content => "%${username} ALL=NOPASSWD:ALL",
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-      }
-    }
-
-    user { $username:
-      require    => Package[$rubyShadowPkg],
-      groups     => $groups,
-      ensure     => present,
-      home       => $home,
-      managehome => yes,
-      password   => $password,
-    }
+  user { $username:
+    require    => Package[$rubyShadowPkg],
+    groups     => $groups,
+    ensure     => present,
+    home       => $home,
+    managehome => yes,
+    password   => $password,
   }
 
 }

@@ -4,10 +4,11 @@
 #
 # === Parameters
 #
-# Document parameters here.
+# disableGuestAccount
+#   Boolean. Set to true to remove the guest login account.
 #
 # username
-#   String. User account that development work will be done under. Setting to 'undef' will not create a default user.
+#   String. User account that development work will be done under. A username must be specified.
 #
 # userHome
 #   String. Home directory for user. Only takes effect if username is set and user is created.
@@ -19,8 +20,11 @@
 #   sha-512. The password of the user. Only takes effect if username is set and user is created. Generate with 'mkpasswd -m sha-512
 #   -s'
 #
-# disableGuestAccount
-#   Boolean. Set to true to remove the guest login account.
+# installPkgs
+#   Array. Packages to install.
+#
+# uninstallPkgs
+#   Array. Packages to uninstall.
 #
 # === Variables
 #
@@ -34,8 +38,17 @@
 #
 # Vang Nguyen <mtb.vang@gmail.com>
 #
-class devhost ($username = undef, $userHome = undef, $userGroups = undef, $userPassword = undef, $disableGuestAccount = true) 
-inherits params {
+class devhost (
+  $disableGuestAccount   = true,
+  $username              = $devhost::params::devUser,
+  $userHome              = $devhost::params::devUserHome,
+  $userGroups            = $devhost::params::devUserGroups,
+  $userPassword          = $devhost::params::devUserPassword,
+  $installPkgs           = $devhost::params::installPkgs,
+  $uninstallPkgs         = $devhost::params::uninstallPkgs,
+  $dockerVersion         = '1.2.0',
+  $dockerServiceProvider = 'upstart',
+  $vagrantDownloadUrl    = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb") inherits params {
   Exec {
     path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 

@@ -2,9 +2,9 @@
 # Install vagrant and plugins.
 #
 class devhost::ubuntu::vagrant (
-  $downloadUrl              = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb",
-  $user                     = $devhost::params::devUser,
-  $userHome                 = "/home/${devhost::params::devUser}",
+  $downloadUrl              = $devhost::vagrantDownloadUrl,
+  $user                     = $devhost::username,
+  $userHome                 = $devhost::userHome,
   $hostPluginVersion        = "2.1.5",
   $vbguestPluginVersion     = "0.10.0",
   $hostsupdatePluginVersion = "0.0.11") {

@@ -27,8 +27,6 @@ class devhost::params {
         'iotop',
         'jedit',
         'libtool',
-        'libxml2-dev',
-        'libxslt1-dev',
         'meld',
         'mysql-workbench',
         'password-gorilla',
