@@ -4,7 +4,7 @@
   This is an initial straight port of the existing Makefile process.
   -->
 
-<project name="mtbvang-devhost" default="default" phingVersion="2.7.0" description="Test and build the puppet module.">
+<project name="mtbvang-devhost" default="default" phingVersion="2.7.0" description="Test and build the puppet module. Note all test related targets need to be run from within the vagrant virtual machine.">
 
 	<property environment="env" />
 	<property name="build.dir" value="${project.basedir}" />
@@ -28,6 +28,16 @@
 
 	<target name="build-clean" description="Removes the build dir.">
 		<delete dir="build" />
+	</target>
+
+	<target name="test-bootstrap" depends="build-init" description="Downloads the boostrap script from github and runs it in the build directory.">
+		<exec command="curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh" dir="build" passthru="false" />
+		<exec command="chmod +x bootstrap.sh" dir="build" passthru="false" />
+		<exec command="sudo ./bootstrap.sh" dir="build" passthru="true" />
+	</target>
+
+	<target name="test-bootstrap-local" depends="build-init" description="Runs the boostrap script from with the local parameter which uses the local files instead of github.">
+		<exec command="sudo ./bootstrap.sh local" dir="." passthru="true" />
 	</target>
 
 	<!-- Smoke test targets -->
@@ -84,7 +94,6 @@
 		</if>
 	</target>
 
-
 	<target name="librarian-puppet-update" depends="build-init" description="Runs librarian-puppet update. Only runs if option.modules.update property is set to any value e.g. -Doption.modules.update=true.">
 		<exec passthru="true" command="librarian-puppet update --verbose" />
 	</target>
@@ -107,21 +116,21 @@
 	<target name="vagrant-destroy-all" depends="vagrant-destroy" description="Destroys all machines in the correct order." />
 
 	<target name="vagrant-reload-all" description="Restarts all machines in the correct order.">
-		<exec command="vagrant reload vbox" passthru="true" />
+		<exec command="vagrant reload dev" passthru="true" />
 	</target>
 
 	<target name="vagrant-rebuild" depends="vagrant-destroy, 
-		vagrant-up" description="Vagrant destroy and up of vbox testing machine." />
+		vagrant-up" description="Vagrant destroy and up of dev testing machine." />
 
-	<target name="vagrant-destroy" description="Vagrant destroy the vbox testing machine.">
-		<exec command="vagrant destroy -f vbox" passthru="true" />
+	<target name="vagrant-destroy" description="Vagrant destroy the dev testing machine.">
+		<exec command="vagrant destroy -f dev" passthru="true" />
 	</target>
 
-	<target name="vagrant-up" description="Vagrant up the vbox testing machine.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up vbox --provider=virtualbox --provision" passthru="true" />
+	<target name="vagrant-up" description="Vagrant up the dev testing machine.">
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up dev --provider=virtualbox --provision" passthru="true" />
 	</target>
 
-	<target name="vagrant-provision" description="Vagrant up the vbox testing machine.">
+	<target name="vagrant-provision" description="Vagrant up the dev testing machine.">
 		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision" passthru="true" />
 	</target>
 
@@ -131,11 +140,11 @@
 
 	<!-- Docker related targets -->
 
-	<target name="docker.inspect" description="Gets the specified attribute value for the specified container. A container id or name must be passed in using option.container.id argument and a formate string e.g. .NetworkSettings.IPAddress using option.inspect.format argument.">
+	<target name="docker-inspect" description="Gets the specified attribute value for the specified container. A container id or name must be passed in using option.container.id argument and a formate string e.g. .NetworkSettings.IPAddress using option.inspect.format argument.">
 		<exec command="docker inspect --format '{{ ${option.inspect.format} }}' ${option.container.id}" passthru="true" />
 	</target>
 
-	<target name="docker.container.ip" description="Gets the IP for the specified container. A container id must be passed in using option.container.id argument.">
+	<target name="docker-container-ip" description="Gets the IP for the specified container. A container id must be passed in using option.container.id argument.">
 		<exec command="docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${option.container.id}" passthru="true" />
 	</target>
 
