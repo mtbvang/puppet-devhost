@@ -31,6 +31,7 @@ class devhost::ubuntu::trusty::install () {
   contain devhost::sublimetext2
 
   class { 'devhost::ubuntu::packages': }
+  contain devhost::ubuntu::packages
 
   class { 'devhost::ruby': }
   contain devhost::ruby
