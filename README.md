@@ -64,9 +64,9 @@ Requires Ubuntu 14.04 and curl to be installed.
 
 In a working or tmp folder run the following to download the bootstrap script to get things kicked off:
 
-sudo curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh
-sudo chmod +x bootstrap.sh
-sudo ./bootstrap.sh
+- sudo curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh
+- sudo chmod +x bootstrap.sh
+- sudo ./bootstrap.sh
 
 ## Usage
 
