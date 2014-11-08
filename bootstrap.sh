@@ -9,7 +9,7 @@ trim() {
     echo -n "$var"
 }
 
-PUPPET_VERSION=3.6.2-1
+PUPPET_VERSION=3.7.3-1
 PHING_VERSION=2.7.0
 TESTING=$(trim $1)
 
