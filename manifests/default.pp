@@ -6,4 +6,4 @@ import 'ruby.pp'
 import 'sublimetext2.pp'
 import 'ubuntu/*.pp'
 
-include devhost
+class { 'devhost': }

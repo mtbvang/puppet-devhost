@@ -2,7 +2,12 @@
 # Provision a Ubuntu Trusty OS.
 #
 class devhost::ubuntu::trusty () {
-  devhost::users { 'developer': } ->
+  devhost::users { 'defaultuser':
+    username => $devhost::username,
+    home     => $devhost::userHome,
+    groups   => $devhost::userGroups,
+    password => $devhost::userPassword,
+  } ->
   class { 'devhost::ubuntu::trusty::install': } ->
   class { 'devhost::ubuntu::trusty::config': }
 
@@ -27,9 +32,13 @@ class devhost::ubuntu::trusty::install () {
 }
 
 class devhost::ubuntu::trusty::config () {
-  file_line { 'disableGuestAccount':
-    line => 'allow-guest=false',
-    path => '/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf'
+  if $devhost::disableGuestAccount == true {
+    file_line { 'disableGuestAccount':
+      line => 'allow-guest=false',
+      path => '/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf'
+    }
+  } else {
+    warning('Your guest account was not disabled during provisioning.')
   }
 }
 

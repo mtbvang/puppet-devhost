@@ -6,9 +6,21 @@
 #
 # Document parameters here.
 #
-# [username]
-#   User account that development work will be done under.
+# username
+#   String. User account that development work will be done under. Setting to 'undef' will not create a default user.
 #
+# userHome
+#   String. Home directory for user. Only takes effect if username is set and user is created.
+#
+# userGroups
+#   Array. The groups that the user belongs to. Only takes effect if username is set and user is created.
+#
+# userPassword
+#   sha-512. The password of the user. Only takes effect if username is set and user is created. Generate with 'mkpasswd -m sha-512
+#   -s'
+#
+# disableGuestAccount
+#   Boolean. Set to true to remove the guest login account.
 #
 # === Variables
 #
@@ -22,7 +34,8 @@
 #
 # Vang Nguyen <mtb.vang@gmail.com>
 #
-class devhost ($username = 'dev') inherits params {
+class devhost ($username = undef, $userHome = undef, $userGroups = undef, $userPassword = undef, $disableGuestAccount = true) 
+inherits params {
   Exec {
     path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 
@@ -35,11 +48,9 @@ class devhost ($username = 'dev') inherits params {
 
   case $::osfamily {
     'Debian' : {
-      #class { 'apt': }
-
       case $::lsbdistcodename {
         'trusty' : {
-          class { 'devhost::ubuntu::trusty': require => [Exec["updatePackageManager"], ] }
+          class { 'devhost::ubuntu::trusty': require => [Exec["updatePackageManager"],] }
         }
         default  : {
           fail("Unsupported Debian distribution: ${::lsbdistcodename}")

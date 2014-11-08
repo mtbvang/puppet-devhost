@@ -3,8 +3,8 @@
 #
 class devhost::ubuntu::vagrant (
   $downloadUrl              = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb",
-  $user                     = $devhost::params::devuser,
-  $userHome                 = "/home/${devhost::params::devuser}",
+  $user                     = $devhost::params::devUser,
+  $userHome                 = "/home/${devhost::params::devUser}",
   $hostPluginVersion        = "2.1.5",
   $vbguestPluginVersion     = "0.10.0",
   $hostsupdatePluginVersion = "0.0.11") {
