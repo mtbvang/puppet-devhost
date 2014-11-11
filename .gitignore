@@ -6,3 +6,6 @@
 /build
 /Puppetfile.lock
 /.settings
+/expanded_relationships.dot
+/relationships.dot
+/resources.dot

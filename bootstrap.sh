@@ -52,17 +52,25 @@ else
 	librarian-puppet version
 fi 
 
+mkdir -p modules
+if [ ! -f Puppetfile.lock ]; then
+	echo "No librarian-puppet lock file found. Installing."
+	librarian-puppet install --path=modules --verbose
+else
+	echo "librarian-puppet lock file found. Updating."
+	librarian-puppet update --verbose
+fi
+
 ### Provision
 # If TESTING argument not supplied then use github files.
 if [ "$TESTING" == "" ]; then	
 	# Clone devhost repository
 	if [[ ! -e "devhost" ]]; then
 		echo "Cloning repo..."
-		git clone https://github.com/mtbvang/devhost.git
+		git clone https://github.com/mtbvang/puppet-devhost.git modules/devhost
 	elif [[ ! -d $dir ]]; then
 	    echo "Not cloning devhost repo, devhost folder already exists."
 	fi
-	cd devhost	
 else 
 	if [ "$TESTING" == "local" ]; then	
 		echo "Test run using local manifests files."	
@@ -75,13 +83,4 @@ else
 fi
 
 
-mkdir -p build/modules
-if [ ! -f Puppetfile.lock ]; then
-	echo "No librarian-puppet lock file found. Installing."
-	librarian-puppet install --path=build/modules --verbose
-else
-	echo "librarian-puppet lock file found. Updating."
-	librarian-puppet update --verbose
-fi
-
-puppet apply --modulepath=build/modules manifests/default.pp
+puppet apply --modulepath=modules modules/devhost/manifests/default.pp

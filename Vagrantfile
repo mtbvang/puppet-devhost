@@ -77,8 +77,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     t.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "default.pp"
-      puppet.module_path = "build/modules"
-      puppet.options = "--verbose"
+      puppet.module_path = ["build/modules"]
+      puppet.options = "--summarize --graph --graphdir '/vagrant/build'"
     end
   end
 

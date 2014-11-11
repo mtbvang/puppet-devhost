@@ -13,7 +13,6 @@ class devhost::ubuntu::vagrant (
     before      => Package['vagrant'],
     source      => $downloadUrl,
     destination => "/tmp/vagrant.deb",
-    # timeout     => 120,
     chmod       => 0755,
   }
 
@@ -41,28 +40,32 @@ class devhost::ubuntu::vagrant (
     environment => "HOME=${userHome}",
     command     => "/usr/bin/vagrant plugin install vagrant-hosts --plugin-version ${hostPluginVersion}",
     require     => [Package['vagrant'], File["${userHome}/.vagrant.d"]],
-    logoutput   => on_failure
+    logoutput   => on_failure,
+    unless      => "vagrant plugin list | grep 'vagrant-hosts (${hostPluginVersion})'"
   }
 
   exec { 'vagrant_vbguest_plugin':
     environment => "HOME=${userHome}",
     command     => "/usr/bin/vagrant plugin install vagrant-vbguest --plugin-version ${vbguestPluginVersion}",
     require     => [Package['vagrant'], File["${userHome}/.vagrant.d"]],
-    logoutput   => on_failure
+    logoutput   => on_failure,
+    unless      => "vagrant plugin list | grep 'vagrant-vbguest (${vbguestPluginVersion})'"
   }
 
   exec { 'vagrant_hostsupdater_plugin':
     environment => "HOME=${userHome}",
     command     => "/usr/bin/vagrant plugin install vagrant-hostsupdater --plugin-version ${hostsupdatePluginVersion}",
     require     => [Package['vagrant'], File["${userHome}/.vagrant.d"]],
-    logoutput   => on_failure
+    logoutput   => on_failure,
+    unless      => "vagrant plugin list | grep 'vagrant-hostsupdater (${hostsupdatePluginVersion})'"
   }
 
   exec { 'vagrant_cachier_plugin':
     environment => "HOME=${userHome}",
     command     => "/usr/bin/vagrant plugin install vagrant-cachier --plugin-version ${cachierPluginVersion}",
     require     => [Package['vagrant'], File["${userHome}/.vagrant.d"]],
-    logoutput   => on_failure
+    logoutput   => on_failure,
+    unless      => "vagrant plugin list | grep 'vagrant-cachier (${cachierPluginVersion})'"
   }
 
 }

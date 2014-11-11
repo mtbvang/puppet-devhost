@@ -11,8 +11,6 @@ class devhost::ubuntu::trusty () {
   class { 'devhost::ubuntu::trusty::install': } ->
   class { 'devhost::ubuntu::trusty::config': }
 
-  contain devhost::ubuntu::trusty::install
-  contain devhost::ubuntu::trusty::config
 }
 
 class devhost::ubuntu::trusty::install () {
