@@ -19,7 +19,7 @@ add-apt-repository multiverse
 apt-get update
 
 ### Install required tools
-apt-get install -yq wget git php-pear bundler
+apt-get install -y wget git php-pear bundler
 PEAR_OK=$(command -v pear)
 if [ "" == "$PEAR_OK" ]; then
 	echo "Pear not installed. Installing."
@@ -52,10 +52,11 @@ else
 	librarian-puppet version
 fi 
 
-mkdir -p modules
+curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/Puppetfile
+
 if [ ! -f Puppetfile.lock ]; then
 	echo "No librarian-puppet lock file found. Installing."
-	librarian-puppet install --path=modules --verbose
+	librarian-puppet install --verbose
 else
 	echo "librarian-puppet lock file found. Updating."
 	librarian-puppet update --verbose
@@ -65,7 +66,7 @@ fi
 # If TESTING argument not supplied then use github files.
 if [ "$TESTING" == "" ]; then	
 	# Clone devhost repository
-	if [[ ! -e "devhost" ]]; then
+	if [[ ! -e "modules/devhost" ]]; then
 		echo "Cloning repo..."
 		git clone https://github.com/mtbvang/puppet-devhost.git modules/devhost
 	elif [[ ! -d $dir ]]; then
