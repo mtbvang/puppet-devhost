@@ -7,7 +7,8 @@ class devhost::ubuntu::vagrant (
   $userHome                 = $devhost::userHome,
   $hostPluginVersion        = $devhost::vagrantHostPluginVersion,
   $vbguestPluginVersion     = $devhost::vagrantVbguestPluginVersion,
-  $hostsupdatePluginVersion = $devhost::vagrantHostsupdatePluginVersion) {
+  $hostsupdatePluginVersion = $devhost::vagrantHostsupdatePluginVersion,
+  $cachierPluginVersion     = $devhost::vagrantCachierPluginVersion) {
   ::wget::fetch { "fetchVagrant":
     before      => Package['vagrant'],
     source      => $downloadUrl,
@@ -53,6 +54,13 @@ class devhost::ubuntu::vagrant (
   exec { 'vagrant_hostsupdater_plugin':
     environment => "HOME=${userHome}",
     command     => "/usr/bin/vagrant plugin install vagrant-hostsupdater --plugin-version ${hostsupdatePluginVersion}",
+    require     => [Package['vagrant'], File["${userHome}/.vagrant.d"]],
+    logoutput   => on_failure
+  }
+
+  exec { 'vagrant_cachier_plugin':
+    environment => "HOME=${userHome}",
+    command     => "/usr/bin/vagrant plugin install vagrant-cachier --plugin-version ${cachierPluginVersion}",
     require     => [Package['vagrant'], File["${userHome}/.vagrant.d"]],
     logoutput   => on_failure
   }

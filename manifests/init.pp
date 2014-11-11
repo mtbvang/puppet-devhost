@@ -69,7 +69,8 @@ class devhost (
   $vagrantDownloadUrl    = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb",
   $vagrantHostPluginVersion        = "2.1.5",
   $vagrantVbguestPluginVersion     = "0.10.0",
-  $vagrantHostsupdatePluginVersion = "0.0.11") inherits params {
+  $vagrantHostsupdatePluginVersion = "0.0.11",
+  $vagrantCachierPluginVersion     = "1.1.0") inherits params {
   Exec {
     path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 
