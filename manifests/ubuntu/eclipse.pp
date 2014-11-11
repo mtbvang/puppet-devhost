@@ -39,15 +39,15 @@ class devhost::ubuntu::eclipse (
       'org.eclipse.dltk',
       'org.eclipse.dltk.core',
       'org.eclipse.dltk.ruby',
-      'org.eclipse.wst.xml_ui',
+      'org.eclipse.wst.xml',
       'org.eclipse.cdt',
       'org.eclipse.cdt.gdb',
-      'org.eclipse.cdt.platform',
-      'org.eclipse.cdt.gnu.dsf',
-      'org.eclipse.cdt.gnu.build',
-      'org.eclipse.cdt.gnu.debug',
-      'org.eclipse.cdt.testsrunner.feature',
-      'org.eclipse.php.feature.group',
+      'org.eclipse.cdt',
+      'org.eclipse.cdt',
+      'org.eclipse.cdt',
+      'org.eclipse.cdt',
+      'org.eclipse.cdt.testsrunner',
+      'org.eclipse.php',
       'org.slf4j.api',
       'ch.qos.logback.classic'],
     suppresserrors        => false
@@ -57,7 +57,7 @@ class devhost::ubuntu::eclipse (
     require            => ::Eclipse['eclipse'],
     pluginrepositories => ['http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/'],
     pluginius          => ['org.eclipse.xtext/2.4.3.v201309030823'],
-    # checkforpluginfolders => ['org.eclipse.xtext'],
+    checkforpluginfolders => ['org.eclipse.xtext'],
     suppresserrors     => false
   }
 
@@ -83,7 +83,7 @@ class devhost::ubuntu::eclipse (
     require               => ::Eclipse['eclipse'],
     pluginrepositories    => ['https://bitbucket.org/denmiroch/jsontools/src/default/JsonSite/'],
     pluginius             => ['org.sweetlemonade.eclipse.json.feature.feature.group/1.0.4'],
-    checkforpluginfolders => ['org.sweetlemonade.eclipse.json.feature'],
+    checkforpluginfolders => ['org.sweetlemonade.eclipse.json'],
     suppresserrors        => true
   }
 
@@ -99,7 +99,7 @@ class devhost::ubuntu::eclipse (
     require               => ::Eclipse['eclipse'],
     pluginrepositories    => ['http://pydev.org/updates/'],
     pluginius             => ['org.python.pydev.feature.feature.group/3.7.1.201409021729'],
-    checkforpluginfolders => ['org.python.pydev.feature'],
+    checkforpluginfolders => ['org.python.pydev'],
     suppresserrors        => false
   }
 

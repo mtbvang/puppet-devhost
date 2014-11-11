@@ -3,7 +3,8 @@ define devhost::puppet::librarianpuppet ($userhome) {
     require     => Package['bundler'],
     environment => "HOME=${userhome}",
     command     => $devhost::params::librarianPuppetInstallCmd,
-    logoutput   => on_failure
+    logoutput   => on_failure,
+    unless      => "librarian-puppet version | grep 'librarian-puppet v${devhost::params::librarianPuppetVersion}'"
   }
 }
 
