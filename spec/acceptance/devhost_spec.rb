@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'devhost class' do
-  
+
   context 'default parameters' do
     it 'should work with no errors' do
       pp = <<-EOS
@@ -13,8 +13,16 @@ describe 'devhost class' do
       expect(apply_manifest(pp).exit_code).to eq(0)
     end
 
-    describe package(package_name) do
-      it { should be_installed }
+    describe user('dev') do
+      it { should exist }
+    end
+
+    describe file('/home/dev') do
+      it { should be_directory }
+    end
+
+    describe command('vagrant') do
+      its(:stdout) { should match(/Vagrant 1.6.3/) }
     end
 
   end

@@ -19,8 +19,8 @@ class devhost::ubuntu::trusty::install () {
   class { 'devhost::ubuntu::eclipse': }
   contain devhost::ubuntu::eclipse
 
-  class { 'devhost::ubuntu::vagrant': }
-  contain devhost::ubuntu::vagrant
+  class { 'common::ubuntu::vagrant': }
+  contain common::ubuntu::vagrant
 
   package { 'virtualbox': ensure => 'latest' }
 

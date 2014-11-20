@@ -9,3 +9,5 @@
 /expanded_relationships.dot
 /relationships.dot
 /resources.dot
+/.bundle/
+/modules/

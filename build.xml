@@ -66,6 +66,16 @@
 		</phingcall>
 	</target>
 
+	<target name="test-integration" depends="" description="Runs the Beaker acceptance tests.">
+		<exec passthru="true" checkreturn="true" returnProperty="test.result" outputProperty="test.output" output="build/test-smoke.stdout" error="build/test-smoke.error" command="BEAKER_set=ubuntu-server-1404-x32 bundle exec rake beaker" />
+		<echo msg="test.output=${test.output}" />
+		<echo msg="test.result=${test.result}" />
+		<phingcall target="test-check-result">
+			<property name="test.result" value="${test.result}" />
+		</phingcall>
+	</target>
+
+
 	<target name="puppet-apply" depends="build-init, librarian-puppet-install" description="Does a puppet apply of the devhost class to the machine that this build script is run from.">
 		<exec passthru="false" checkreturn="true" output="build/puppet-apply-localdev-ubuntutrusty.stdout" error="build/puppet-apply-localdev-ubuntutrusty.error" command="${apply.command} " />
 	</target>
@@ -99,7 +109,7 @@
 	</target>
 
 	<target name="librarian-puppet-install" unless="modules.exists" depends="build-init" description="Runs librarian-puppet install">
-		<exec passthru="true" command="librarian-puppet install --path=build/modules --verbose" />
+		<exec passthru="true" command="librarian-puppet install --path=modules --verbose" />
 	</target>
 
 
