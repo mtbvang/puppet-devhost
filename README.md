@@ -40,11 +40,13 @@ Installs the following tools on the host:
     - libtool
     - libxml2-dev
     - libxslt1-dev
+    - lubuntu-desktop
     - meld
     - mysql-workbench
     - password-gorilla
     - ruby-dev
     - screen
+    - skype
     - sshfs
     - subversion
     - sysstat
