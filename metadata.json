@@ -1,0 +1,18 @@
+{
+  "name": "mtbvang-devhost",
+  "version": "0.1.0",
+  "author": "Vang Nguyen <mtb.vang@gmail.com>",
+  "summary": "Common library of puppet manifests used by other puppet modules.",
+  "license": "Apache 2.0",
+  "source": "https://github.com/mtbvang/puppet-devhost.git",
+  "project_page": "https://github.com/mtbvang/puppet-devhost",
+  "issues_url": "https://github.com/mtbvang/puppet-devhost/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 1.0.0"
+    },
+    {"name":"leonardothibes/wget","version_requirement":"1.0.4"},
+    {"name":"puppetlabs/apt","version_requirement":"1.6.0"}
+  ]
+}

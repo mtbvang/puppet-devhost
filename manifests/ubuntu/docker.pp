@@ -20,14 +20,14 @@ class devhost::ubuntu::docker (
     service_status   => $service_status,
     service_restart  => $service_restart,
   }
-  contain 'docker'
 
   # Allows docker to run as sudo.
   exec { 'dockersudo':
+    user        => 'root',
     require     => Class['::docker'],
     notify      => Exec['dockerRestart'],
-    environment => "HOME=/home/${docker_sudo_user}",
-    command     => "sudo gpasswd -a ${docker_sudo_user} docker",
+    #environment => "HOME=/home/${docker_sudo_user}",
+    command     => "gpasswd -a ${docker_sudo_user} docker",
     logoutput   => on_failure
   }
 

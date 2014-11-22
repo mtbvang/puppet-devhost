@@ -22,7 +22,8 @@ class devhost::ubuntu::trusty::install () {
   class { 'common::ubuntu::vagrant': }
   contain common::ubuntu::vagrant
 
-  package { 'virtualbox': ensure => 'latest' }
+  class { 'common::ubuntu::virtualbox': }
+  contain common::ubuntu::virtualbox
 
   class { '::devhost::ubuntu::docker': version => $devhost::dockerVersion, }
   contain 'devhost::ubuntu::docker'
@@ -40,13 +41,17 @@ class devhost::ubuntu::trusty::install () {
     require  => Class['devhost::ruby'],
     userhome => "/home/${devhost::username}"
   }
+
+  class { 'common::ubuntu::skype':
+  }
+  contain common::ubuntu::skype
 }
 
 class devhost::ubuntu::trusty::config () {
   if $devhost::disableGuestAccount == true {
-    file_line { 'disableGuestAccount':
-      line => 'allow-guest=false',
-      path => '/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf'
+    file { 'disableGuestAccount':
+      path    => '/usr/share/lightdm/lightdm.conf.d/50-no-guest.conf',
+      content => '[SeatDefaults]\nallow-guest=false\n',
     }
   } else {
     warning('Your guest account was not disabled during provisioning.')

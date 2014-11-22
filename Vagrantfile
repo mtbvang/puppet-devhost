@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "nested" do |d|
     d.vm.box = "puppetlabs/ubuntu-14.04-32-nocm"
     d.vm.box_url = "https://vagrantcloud.com/puppetlabs/ubuntu-14.04-32-nocm"
-    d.vbguest.auto_update = true 
+    d.vbguest.auto_update = false 
     
     d.vm.hostname = "nested.dev.local"
 
@@ -66,13 +66,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # A Ubuntu Trusty machine for testing this module.
   config.vm.define "testing",  primary: true do |t|
-    # Create symlinks to access graph files
-    t.vm.provision "shell", inline: "mkdir -p /var/lib/puppet/state/graphs && ln -sf /vagrant /var/lib/puppet/state/graphs"
-
-    t.vm.box = "trusty-desktop-amd64.box"
 
     t.vm.hostname = "vbox.dev.local"
-    t.vbguest.auto_update = true
+    t.vbguest.auto_update = false
+    t.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
 
     t.vm.provision "shell" do |s|
       s.path = "vagrant/bootstrap.sh"

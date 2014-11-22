@@ -37,6 +37,7 @@ class devhost::params {
         'sysstat',
         'whois',
         ]
+      $desktopPkgs = ['lubuntu-desktop']
 
       case $::lsbdistcodename {
         'trusty'  : {
