@@ -64,7 +64,7 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto
-    fog-core (1.24.0)
+    fog-core (1.25.0)
       builder
       excon (~> 0.38)
       formatador (~> 0.2)
@@ -167,6 +167,7 @@ GEM
       unf_ext
     unf_ext (0.0.6)
     uuidtools (2.1.5)
+    vagrant-wrapper (1.2.1.1)
 
 PLATFORMS
   ruby
@@ -182,3 +183,4 @@ DEPENDENCIES
   puppetlabs_spec_helper
   rake
   rspec-puppet (~> 1.0.0)
+  vagrant-wrapper

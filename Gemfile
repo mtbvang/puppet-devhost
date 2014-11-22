@@ -13,5 +13,6 @@ group :development do
   gem "beaker"
   gem "beaker-rspec"
   gem "pry"
+  gem "vagrant-wrapper"
   gem "beaker-librarian"
 end
