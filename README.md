@@ -51,6 +51,7 @@ Installs the following tools on the host:
     - subversion
     - sysstat
     - whois
+    - xchat
 
 ## Setup
 

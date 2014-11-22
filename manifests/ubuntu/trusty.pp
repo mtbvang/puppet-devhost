@@ -42,9 +42,15 @@ class devhost::ubuntu::trusty::install () {
     userhome => "/home/${devhost::username}"
   }
 
-  class { 'common::ubuntu::skype':
+  if $devhost::installSkype == true {
+    class { 'common::ubuntu::skype': }
+    contain common::ubuntu::skype
   }
-  contain common::ubuntu::skype
+
+  if $devhost::installDropbox == true {
+    package { $devhost::params::dropboxPkg: ensure => 'installed' }
+  }
+
 }
 
 class devhost::ubuntu::trusty::config () {

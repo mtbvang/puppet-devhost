@@ -26,13 +26,13 @@ class devhost::ubuntu::docker (
     user        => 'root',
     require     => Class['::docker'],
     notify      => Exec['dockerRestart'],
-    #environment => "HOME=/home/${docker_sudo_user}",
+    environment => "HOME=/home/${docker_sudo_user}",
     command     => "gpasswd -a ${docker_sudo_user} docker",
     logoutput   => on_failure
   }
 
   exec { 'dockerRestart':
-    user      => root,
+    user      => 'root',
     command   => "service docker stop; sleep 1; service docker start",
     onlyif    => "service docker status",
     logoutput => on_failure

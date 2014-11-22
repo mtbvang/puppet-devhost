@@ -3,7 +3,7 @@ define devhost::puppet::librarianpuppet ($userhome) {
     command   => $devhost::params::librarianPuppetInstallCmd,
     logoutput => on_failure,
     creates   => '/usr/local/bin/puppet',
-    unless    => "librarian-puppet version | grep 'librarian-puppet v${devhost::params::librarianPuppetVersion}'"
+    unless    => "which librarian-puppet"
   }
 }
 

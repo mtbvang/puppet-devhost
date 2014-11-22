@@ -36,8 +36,10 @@ class devhost::params {
         'subversion',
         'sysstat',
         'whois',
+        'xchat'
         ]
       $desktopPkgs = ['lubuntu-desktop']
+      $dropboxPkg = 'nautilus-dropbox'
 
       case $::lsbdistcodename {
         'trusty'  : {
@@ -47,6 +49,7 @@ class devhost::params {
           $rubyShadowPkg = 'ruby-shadow'
         }
         'precise' : {
+          # TODO Not supported yet.
           $bundlerVersion = undef
           $rubyShadowPkg = 'libshadow-ruby1.8'
           $puppetPackageName = "puppetlabs-release-precise.deb"
@@ -61,6 +64,7 @@ class devhost::params {
 
     }
     'RedHat' : {
+      # TODO Not supported yet.
       $apacheRestart = 'service httpd restart'
       $devAdminGroup = 'root'
       $envDevInstallPkgs = []

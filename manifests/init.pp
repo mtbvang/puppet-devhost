@@ -64,6 +64,8 @@ class devhost (
   $userPassword          = $devhost::params::devUserPassword,
   $installPkgs           = $devhost::params::installPkgs,
   $desktopPkgs           = $devhost::params::desktopPkgs,
+  $installDropbox        = true,
+  $installSkype          = true,
   $uninstallPkgs         = $devhost::params::uninstallPkgs,
   $dockerVersion         = '1.3.1',
   $dockerServiceProvider = 'upstart',
