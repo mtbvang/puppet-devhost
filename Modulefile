@@ -8,5 +8,3 @@ description   ''
 project_page  'https://github.com/mtbvang/puppet-devhost'
 
 dependency 'puppetlabs-stdlib', '>= 1.0.0'
-dependency 'leonardothibes-wget', '>= 1.0.4'
-dependency 'puppetlabs-apt', '>= 1.6.0'
