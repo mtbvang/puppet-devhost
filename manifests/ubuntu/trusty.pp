@@ -56,7 +56,7 @@ class devhost::ubuntu::trusty::install () {
 
 }
 
-class devhost::ubuntu::trusty::config ($userhome = $devhost::userhome) {
+class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome = $devhost::userhome) {
   if $devhost::disableGuestAccount == true {
     file { 'disableGuestAccount':
       path    => '/usr/share/lightdm/lightdm.conf.d/50-no-guest.conf',
@@ -66,9 +66,36 @@ class devhost::ubuntu::trusty::config ($userhome = $devhost::userhome) {
     warning('Your guest account was not disabled during provisioning.')
   }
 
-  file { "${userhome}/.config/openbox/lubuntu-rc.xml": source => 'puppet:///modules/devhost/ubuntu/lubuntu-rc.xml', }
+  $openboxConfigDir = ["${userhome}/.config", "${userhome}/.config/openbox"]
 
-  file { "${userhome}/.config/openbox/lxde-rc.xml": source => 'puppet:///modules/devhost/ubuntu/lxde-rc.xml', }
+  file { $openboxConfigDir:
+    ensure => "directory",
+    owner  => $username,
+    group  => $username,
+    mode   => 700
+  }
 
-  file { "${userhome}/.config/openbox/rc.xml": source => 'puppet:///modules/devhost/ubuntu/rc.xml', }
+  file { "${userhome}/.config/openbox/lubuntu-rc.xml":
+    require => File[$openboxConfigDir],
+    source  => 'puppet:///modules/devhost/ubuntu/lubuntu-rc.xml',
+    owner   => $username,
+    group   => $username,
+    mode    => 644,
+  }
+
+  file { "${userhome}/.config/openbox/lxde-rc.xml":
+    require => File[$openboxConfigDir],
+    source  => 'puppet:///modules/devhost/ubuntu/lxde-rc.xml',
+    owner   => $username,
+    group   => $username,
+    mode    => 644,
+  }
+
+  file { "${userhome}/.config/openbox/rc.xml":
+    require => File[$openboxConfigDir],
+    source  => 'puppet:///modules/devhost/ubuntu/rc.xml',
+    owner   => $username,
+    group   => $username,
+    mode    => 644,
+  }
 }

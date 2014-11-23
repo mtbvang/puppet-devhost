@@ -63,7 +63,7 @@ else
 fi
 
 ### Provision
-# If TESTING argument not supplied then use github files.
+# If TESTING argument not supplied then clone and use manifests from github. Otherwise use local manifests.
 if [ "$TESTING" == "" ]; then	
 	# Clone devhost repository
 	if [[ ! -e "modules/devhost" ]]; then
@@ -74,7 +74,11 @@ if [ "$TESTING" == "" ]; then
 	fi
 else 
 	if [ "$TESTING" == "local" ]; then	
-		echo "Test run using local manifests files."	
+		echo "Test run using local manifests files. Copying local files to modules/devhost."			
+		# TODO copy files to modules folder
+		mkdir -p modules/devhost
+		cp -rf files modules/devhost/files
+		cp -rf manifests modules/devhost/manifests
 	else
 		echo "Invalid argument supplied: '$1'."
 		echo "Script takes one argument that can be set to 'local' for testing."
@@ -83,8 +87,7 @@ else
 	fi
 fi
 
-
-puppet apply --modulepath=modules modules/devhost/manifests/default.pp
+puppet apply --summarize --modulepath=modules modules/devhost/manifests/default.pp
 
 # Cleanup
 rm -rf modules

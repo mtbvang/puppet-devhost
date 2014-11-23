@@ -25,3 +25,13 @@ fi
 
 # Ensure build dir exists.
 mkdir -p /vagrant/build
+
+# Run librarian puppet
+cd /vagrant
+echo "pwd: $(pwd)"
+librarian-puppet update --verbose
+
+# TODO copy files to modules folder
+mkdir -p modules/devhost
+cp -rf files modules/devhost/files
+cp -rf manifests modules/devhost/manifests
