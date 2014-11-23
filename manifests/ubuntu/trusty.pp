@@ -19,10 +19,13 @@ class devhost::ubuntu::trusty::install () {
   class { 'devhost::ubuntu::eclipse': }
   contain devhost::ubuntu::eclipse
 
-  class { 'common::ubuntu::vagrant': }
-  contain common::ubuntu::vagrant
+  if $devhost::installVagrant == true {
+    class { 'common::ubuntu::vagrant': }
+    contain common::ubuntu::vagrant
+  }
 
-  class { 'common::ubuntu::virtualbox': }
+  class { 'common::ubuntu::virtualbox':
+  }
   contain common::ubuntu::virtualbox
 
   class { '::devhost::ubuntu::docker': version => $devhost::dockerVersion, }
