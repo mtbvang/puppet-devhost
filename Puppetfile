@@ -24,5 +24,3 @@ mod 'mtbvang/common',
 mod 'mtbvang/devpuppet',
   :git => 'git://github.com/mtbvang/puppet-devpuppet.git'
   
-mod 'mtbvang/devhost',
-  :git => 'git://github.com/mtbvang/puppet-devhost.git'
