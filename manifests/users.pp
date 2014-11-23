@@ -4,7 +4,7 @@
 #
 define devhost::users (
   $username = $devhost::params::devUser,
-  $home     = $devhost::params::devUserHome,
+  $home     = $devhost::params::devuserhome,
   $groups   = $devhost::params::devUserGroups,
   $password = $devhost::params::devUserPassword) {
   $rubyShadowPkg = $devhost::params::rubyShadowPkg

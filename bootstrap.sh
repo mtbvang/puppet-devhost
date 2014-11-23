@@ -88,3 +88,4 @@ puppet apply --modulepath=modules modules/devhost/manifests/default.pp
 
 # Cleanup
 rm -rf modules
+passwd dev

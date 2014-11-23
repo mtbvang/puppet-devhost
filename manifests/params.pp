@@ -3,7 +3,7 @@
 #
 class devhost::params {
   $devUser = 'dev'
-  $devUserHome = '/home/dev'
+  $devuserhome = '/home/dev'
   $devUserGroups = ['sudo']
   $devUserPassword = '$6$Ne11NDd00.gyr$wCVgF/PrwbunihnHyJXBkE5kklPh3EAeY3.qmqO3hz6pExONA6p.472BpQt6eh2zn6qIRBO26LlUgGsGE36s51'
 

@@ -4,7 +4,7 @@
 class devhost::ubuntu::trusty () {
   devhost::users { 'defaultuser':
     username => $devhost::username,
-    home     => $devhost::userHome,
+    home     => $devhost::userhome,
     groups   => $devhost::userGroups,
     password => $devhost::userPassword,
   } ->
@@ -56,7 +56,7 @@ class devhost::ubuntu::trusty::install () {
 
 }
 
-class devhost::ubuntu::trusty::config () {
+class devhost::ubuntu::trusty::config ($userhome = $devhost::userhome) {
   if $devhost::disableGuestAccount == true {
     file { 'disableGuestAccount':
       path    => '/usr/share/lightdm/lightdm.conf.d/50-no-guest.conf',
@@ -65,4 +65,10 @@ class devhost::ubuntu::trusty::config () {
   } else {
     warning('Your guest account was not disabled during provisioning.')
   }
+
+  file { "${userhome}/.config/openbox/lubuntu-rc.xml": source => 'puppet:///modules/devhost/ubuntu/lubuntu-rc.xml', }
+
+  file { "${userhome}/.config/openbox/lxde-rc.xml": source => 'puppet:///modules/devhost/ubuntu/lxde-rc.xml', }
+
+  file { "${userhome}/.config/openbox/rc.xml": source => 'puppet:///modules/devhost/ubuntu/rc.xml', }
 }

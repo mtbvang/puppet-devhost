@@ -10,7 +10,7 @@
 # username
 #   String. User account that development work will be done under. A username must be specified.
 #
-# userHome
+# userhome
 #   String. Home directory for user. Only takes effect if username is set and user is created.
 #
 # userGroups
@@ -59,7 +59,7 @@
 class devhost (
   $disableGuestAccount   = true,
   $username              = $devhost::params::devUser,
-  $userHome              = $devhost::params::devUserHome,
+  $userhome              = $devhost::params::devuserhome,
   $userGroups            = $devhost::params::devUserGroups,
   $userPassword          = $devhost::params::devUserPassword,
   $installPkgs           = $devhost::params::installPkgs,

@@ -15,8 +15,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "nested" do |d|
     d.vm.box = "puppetlabs/ubuntu-14.04-32-nocm"
     d.vm.box_url = "https://vagrantcloud.com/puppetlabs/ubuntu-14.04-32-nocm"
-    d.vbguest.auto_update = false 
-    
+    d.vbguest.auto_update = false
+
     d.vm.hostname = "nested.dev.local"
 
     d.vm.provider "virtualbox" do |vb|
@@ -30,11 +30,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # A docker for doing development work on this module.
   config.vm.define "dev" do |d|
-    d.vm.hostname = "devhost.dev.local"      
-      
-    d.vbguest.auto_update = false 
+    d.vm.hostname = "devhost.dev.local"
+
+    d.vbguest.auto_update = false
     d.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
-    
+
     # Boostrap docker image with shell provisioner.
     d.vm.provision "shell" do |s|
       s.path = "vagrant/bootstrap.sh"
@@ -51,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     d.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "modules/devpuppet/manifests"
       puppet.manifest_file  = "default.pp"
-      puppet.module_path = ["modules"]
+      puppet.module_path = ['./modules', './']
       puppet.options = "--summarize --graph --graphdir '/vagrant/build'"
     end
 
@@ -95,7 +95,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     t.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "default.pp"
-      puppet.module_path = ["modules"]
+      puppet.module_path = ['modules']
       puppet.options = "--summarize --graph --graphdir '/vagrant/build'"
     end
   end
