@@ -30,7 +30,7 @@
 		<delete dir="build" />
 	</target>
 
-	<target name="test-bootstrap" depends="build-init" description="Downloads the boostrap script from github and runs it in the build directory.">
+	<target name="test-bootstrap" depends="build-init" description="Downloads the boostrap script from github and runs it in the build directory to provision the machine.">
 		<exec command="curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh" dir="build" passthru="false" />
 		<exec command="chmod +x bootstrap.sh" dir="build" passthru="false" />
 		<exec command="sudo ./bootstrap.sh" dir="build" passthru="true" />
@@ -57,8 +57,8 @@
 		<delete file="build/test-smoke.error" />
 	</target>
 
-	<target name="test-smoke" depends="build-init, librarian-puppet-install" description="Tests the localdev class in for Ubuntu Trusty">
-		<exec passthru="false" checkreturn="true" returnProperty="test.result" outputProperty="test.output" output="build/test-smoke.stdout" error="build/test-smoke.error" command="${test.command} " />
+	<target name="test-smoke" depends="build-init, librarian-puppet-update" description="Tests the devhost class by running up the vagrant testing VM and provisioning with puppet.">
+		<exec passthru="true" checkreturn="true" returnProperty="test.result" outputProperty="test.output" output="build/test-smoke.stdout" error="build/test-smoke.error" command="vagrant destroy -f smoketest &amp;&amp; vagrant up smoketest" />
 		<echo msg="test.output=${test.output}" />
 		<echo msg="test.result=${test.result}" />
 		<phingcall target="test-check-result">
@@ -75,9 +75,8 @@
 		</phingcall>
 	</target>
 
-
 	<target name="puppet-apply" depends="build-init, librarian-puppet-install" description="Does a puppet apply of the devhost class to the machine that this build script is run from.">
-		<exec passthru="false" checkreturn="true" output="build/puppet-apply-localdev-ubuntutrusty.stdout" error="build/puppet-apply-localdev-ubuntutrusty.error" command="${apply.command} " />
+		<exec passthru="false" checkreturn="true" output="build/puppet-apply-devhost-ubuntutrusty.stdout" error="build/puppet-apply-devhost-ubuntutrusty.error" command="${apply.command} " />
 	</target>
 
 	<target name="test-parse-logs">
@@ -115,10 +114,12 @@
 
 	<!-- Vagrant related targets -->
 
-	<target name="vagrant-up-all" depends="vagrant-up" description="Starts all machines in the correct order." />
+	<target name="vagrant-up-all" depends="vagrant-up" description="Starts all machines in the correct order.">
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up --no-parallel --provider=virtualbox --provision" passthru="true" />
+	</target>
 
 	<target name="vagrant-halt-all" description="Halts all machines in the correct order.">
-		<exec command="vagrant halt testing" passthru="true" />
+		<exec command="vagrant halt" passthru="true" />
 	</target>
 
 	<target name="vagrant-rebuild-all" depends="vagrant-rebuild" description="Rebuilds all machines in the correct order." />

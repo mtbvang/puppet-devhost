@@ -51,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     d.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "modules/devpuppet/manifests"
       puppet.manifest_file  = "default.pp"
-      puppet.module_path = ['./modules', './']
+      puppet.module_path = ['modules']
       puppet.options = "--summarize --graph --graphdir '/vagrant/build'"
     end
 
@@ -64,25 +64,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # A Ubuntu Trusty machine for testing this module.
-  config.vm.define "testing",  primary: true do |t|
+  # A Ubuntu Trusty machine for smoke testing this module.
+  config.vm.define "smoketest",  primary: true do |st|
 
-    t.vm.hostname = "vbox.dev.local"
-    t.vbguest.auto_update = false
-    t.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
+    st.vm.hostname = "vbox.dev.local"
+    st.vbguest.auto_update = false
+    st.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
 
-    t.vm.provision "shell" do |s|
+    st.vm.provision "shell" do |s|
       s.path = "vagrant/bootstrap.sh"
       s.args = "3.6.2-1"
     end
 
     # /usr/share/zoneinfo/Europe/Copenhagen
     if ENV.key? "VAGRANT_LOCAL_TIME"
-      t.vm.provision "shell",
+      st.vm.provision "shell",
       inline: "cp #{ENV['VAGRANT_LOCAL_TIME']} /etc/localtime"
     end
 
-    t.vm.provider "virtualbox" do |vb|
+    st.vm.provider "virtualbox" do |vb|
       # Headless mode boot
       vb.gui = true
       # Use VBoxManage to customize the VM. For example to change memory:
@@ -92,7 +92,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Enable provisioning with Puppet stand alone.  Puppet manifests
     # are contained in a directory path relative to this Vagrantfile.
-    t.vm.provision "puppet" do |puppet|
+    st.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "default.pp"
       puppet.module_path = ["modules"]

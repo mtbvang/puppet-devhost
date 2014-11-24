@@ -89,6 +89,10 @@ fi
 
 puppet apply --summarize --modulepath=modules modules/devhost/manifests/default.pp
 
-# Cleanup
-rm -rf modules
+# Only clean up if not locally testing.
+if [ "$TESTING" == "" ]; then
+	rm -rf modules
+fi
+
+# Reset password
 passwd dev
