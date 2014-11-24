@@ -20,13 +20,13 @@ class devhost::ubuntu::trusty::install () {
   contain devhost::ubuntu::eclipse
 
   if $devhost::installVagrant == true {
-    class { 'common::ubuntu::vagrant': }
-    contain common::ubuntu::vagrant
+    class { 'mtbvang::ubuntu::vagrant': }
+    contain mtbvang::ubuntu::vagrant
   }
 
-  class { 'common::ubuntu::virtualbox':
+  class { 'mtbvang::ubuntu::virtualbox':
   }
-  contain common::ubuntu::virtualbox
+  contain mtbvang::ubuntu::virtualbox
 
   class { '::devhost::ubuntu::docker': version => $devhost::dockerVersion, }
   contain 'devhost::ubuntu::docker'
@@ -46,8 +46,8 @@ class devhost::ubuntu::trusty::install () {
   }
 
   if $devhost::installSkype == true {
-    class { 'common::ubuntu::skype': }
-    contain common::ubuntu::skype
+    class { 'mtbvang::ubuntu::skype': }
+    contain mtbvang::ubuntu::skype
   }
 
   if $devhost::installDropbox == true {

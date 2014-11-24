@@ -19,7 +19,7 @@ mod 'runthebusiness/eclipse',
   :git => 'https://github.com/runthebusiness/puppet-eclipse.git'
   
 mod 'mtbvang/common',
-  :git => 'git://github.com/mtbvang/puppet-common.git'
+  :git => 'git://github.com/mtbvang/puppet-mtbvang.git'
   
 mod 'mtbvang/devpuppet',
   :git => 'git://github.com/mtbvang/puppet-devpuppet.git'
