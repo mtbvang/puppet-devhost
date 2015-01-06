@@ -1,5 +1,5 @@
 {
-  "name": "mtbvang-devhost",
+  "name": "puppet-devhost",
   "version": "0.1.0",
   "author": "Vang Nguyen <mtb.vang@gmail.com>",
   "summary": "Common library of puppet manifests used by other puppet modules.",
