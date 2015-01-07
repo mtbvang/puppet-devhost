@@ -1,4 +1,4 @@
-name          'mtbvang-devhost'
+name          'puppet-devhost'
 version       '0.1.0'
 source        'https://github.com/mtbvang/puppet-devhost.git'
 author        'Vang Nguyen <mtb.vang@gmail.com>'
