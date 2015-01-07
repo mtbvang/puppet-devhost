@@ -20,7 +20,9 @@ mod 'runthebusiness/eclipse',
   
 mod 'mtbvang/mtbvang',
   :git => 'git://github.com/mtbvang/puppet-mtbvang.git'
+#  :ref => '>= 0.1.0'
   
 mod 'mtbvang/devpuppet',
   :git => 'git://github.com/mtbvang/puppet-devpuppet.git'
+#  :ref => '>= 0.1.0'
   
