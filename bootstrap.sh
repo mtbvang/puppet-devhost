@@ -39,7 +39,7 @@ if [ "" == "$PUPPET_OK" ]; then
 	apt-get update
 	apt-get install -yq puppet-common=${PUPPET_VERSION}puppetlabs1 puppet=${PUPPET_VERSION}puppetlabs1 
 else 
-	echo -e "Puppet already install:\n ${PUPPET_OK}"
+	echo -e "Puppet already installed:\n ${PUPPET_OK}"
 	puppet --version
 fi 
 
@@ -48,7 +48,7 @@ LIBPUP_OK=$(command -v librarian-puppet)
 if [ "" == "$LIBPUP_OK" ]; then
 	gem install librarian-puppet -v 1.3.2 --source 'https://rubygems.org'
 else 
-	echo -e "librarian-puppet already install:\n ${LIBPUP_OK}"
+	echo -e "librarian-puppet already installed:\n ${LIBPUP_OK}"
 	librarian-puppet version
 fi 
 
