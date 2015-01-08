@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-  Build, dist/package and deploy VIM hosted and server editions. 
-  This is an initial straight port of the existing Makefile process.
-  -->
 
 <project name="mtbvang-devhost"
          default="default"
@@ -53,7 +49,7 @@
 
 	<!-- Smoke test targets -->
 	<property name="option.puppet.options" value="--verbose" />
-	<property name="option.module.path" value="build/modules" />
+	<property name="option.module.path" value="modules" />
 	<property name="option.test.manifest" value="tests/init.pp" />
 	<property name="option.apply.manifest" value="manifests/site.pp" />
 
@@ -62,7 +58,7 @@
 	          value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} ${option.test.manifest} " />
 	<echo message="test.command: ${test.command}" />
 	<property name="apply.command"
-	          value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} ${option.apply.manifest} " />
+	          value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} -e &quot;class { 'devhost': }&quot;" />
 	<echo message="apply.command: ${apply.command}" />
 
 	<target name="clean-test-smoke">
@@ -90,24 +86,18 @@
 	<target name="bundle-install"
 	        depends=""
 	        description="Installs the gems decleared in the Gemfile.">
-		<exec passthru="true"
-		      checkreturn="true"
-		      returnProperty="test.result"
-		      outputProperty="test.output"
-		      output="build/test-smoke.stdout"
-		      error="build/test-smoke.error"
-		      command="bundle install" />
+		<exec passthru="true" command="bundle install" />
 	</target>
 
 	<target name="test-integration"
-	        depends=""
-	        description="Runs the Beaker acceptance tests. Requires the gems isntalled by target bundle-install.">
+	        depends="bundle-install"
+	        description="Runs the Beaker acceptance tests. Requires the gems installed by target bundle-install. To see output tail -f build/test-integration.stdout">
 		<exec passthru="true"
 		      checkreturn="true"
 		      returnProperty="test.result"
 		      outputProperty="test.output"
-		      output="build/test-smoke.stdout"
-		      error="build/test-smoke.error"
+		      output="build/test-integration.stdout"
+		      error="build/test-integration.error"
 		      command="BEAKER_set=ubuntu-server-1404-x32 bundle exec rake beaker" />
 		<echo msg="test.output=${test.output}" />
 		<echo msg="test.result=${test.result}" />
@@ -117,7 +107,7 @@
 	</target>
 
 	<target name="puppet-apply"
-	        depends="build-init, librarian-puppet-install"
+	        depends="build-init, librarian-puppet-update, librarian-puppet-local-deploy"
 	        description="Does a puppet apply of the devhost class to the machine that this build script is run from.">
 		<exec passthru="false"
 		      checkreturn="true"
