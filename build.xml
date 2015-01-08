@@ -154,7 +154,7 @@
 
 	<target name="librarian-puppet-update"
 	        depends="build-init"
-	        description="Runs librarian-puppet update. Only runs if option.modules.update property is set to any value e.g. -Doption.modules.update=true.">
+	        description="Runs librarian-puppet update.">
 		<exec passthru="true" command="librarian-puppet update --verbose" />
 	</target>
 
@@ -164,6 +164,18 @@
 	        description="Runs librarian-puppet install">
 		<exec passthru="true"
 		      command="librarian-puppet install --path=modules --verbose" />
+	</target>
+
+	<target name="librarian-puppet-local-deploy"
+	        description="Copies the local files to the librarian puppet modules folder so we can do standalone provisioning with puppet.">
+		<copy todir="modules/devhost">
+			<fileset defaultexcludes="false" expandsymboliclinks="true" dir=".">
+				<include name="files/**" />
+				<include name="manifests/**" />
+				<include name="specs/**" />
+				<include name="tests/**" />
+			</fileset>
+		</copy>
 	</target>
 
 
