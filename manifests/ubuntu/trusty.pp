@@ -54,6 +54,14 @@ class devhost::ubuntu::trusty::install () {
     package { $devhost::params::dropboxPkg: ensure => 'installed' }
   }
 
+  if $devhost::installPhing == true {
+    php::pear::module { 'phing':
+      repository  => 'pear.phing.info',
+      version     => '2.8.0',
+      use_package => 'no',
+    }
+  }
+
 }
 
 class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome = $devhost::userhome) {

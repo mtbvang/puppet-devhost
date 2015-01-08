@@ -30,15 +30,5 @@ RSpec.configure do |c|
       on host, "echo #{host['distmoduledir']}"
       on host, 'puppet config print modulepath'
     end
-
-    # puppet_module_install(:source => proj_root, :module_name => 'devhost')
-    #    hosts.each do |host|
-    #      on host, puppet('module', 'install', 'puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
-    #      on host, puppet('module', 'install', 'puppetlabs-apt', '--version', '1.6.0'), { :acceptable_exit_codes => [0,1] }
-    #      on host, puppet('module', 'install', 'leonardothibes-wget', '--version', '1.0.4'), { :acceptable_exit_codes => [0,1] }
-    #      on host, puppet('module', 'install', 'saz-ssh', '--version', '2.4.0'), { :acceptable_exit_codes => [0,1] }
-    #      on host, puppet('module', 'install', 'garethr-docker', '--version', '1.2.2'), { :acceptable_exit_codes => [0,1] }
-    #      on host, puppet('module', 'install', 'runthebusiness-eclipse', '--version', '1.1.0'), { :acceptable_exit_codes => [0,1] }
-    #    end
   end
 end

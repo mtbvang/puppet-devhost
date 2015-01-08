@@ -9,6 +9,7 @@ mod 'leonardothibes/wget', '1.0.4'
 mod 'saz/ssh', '2.4.0'
 mod 'opentable/puppetversion', '1.0.0'
 mod 'ploperations/bundler', '1.0.1'
+mod 'example42/php', '2.0.18'
 
 # Updates to support upstart in docker. Tests need to be written before the pull request will be accepted. https://github.com/garethr/garethr-docker/pull/95
 mod 'garethr/docker',

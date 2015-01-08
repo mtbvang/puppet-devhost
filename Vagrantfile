@@ -28,31 +28,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # A docker for doing development work on this module.
+  # Virtual development environment containing all the tools necessary to do development work on devhost.
   config.vm.define "dev" do |d|
     d.vm.hostname = "devhost.dev.local"
+    d.vm.box = "ubuntu-14.04-amd64-vbox-desktop"
+    d.vm.box_url = "https://drive.google.com/file/d/0B8pj-t-rM-7BYU1NY3NkeUlLZFU/view?usp=sharing"
 
     d.vbguest.auto_update = false
     d.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
 
-    # Boostrap docker image with shell provisioner.
     d.vm.provision "shell" do |s|
-      s.path = "vagrant/bootstrap.sh"
-      s.args = "3.6.2-1"
-    end
-
-    # Provision
-    #    d.vm.provision "shell" do |s|
-    #      s.path = "vagrant/provisioning/dev.sh"
-    #    end
-
-    # Enable provisioning with Puppet stand alone.  Puppet manifests
-    # are contained in a directory path relative to this Vagrantfile.
-    d.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = "modules/devpuppet/manifests"
-      puppet.manifest_file  = "default.pp"
-      puppet.module_path = ['modules']
-      puppet.options = "--summarize --graph --graphdir '/vagrant/build'"
+      s.path = "bootstrap.sh"
+      s.args = "local true"
     end
 
     d.vm.provider "virtualbox" do |vb|

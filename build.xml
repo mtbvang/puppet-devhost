@@ -4,7 +4,10 @@
   This is an initial straight port of the existing Makefile process.
   -->
 
-<project name="mtbvang-devhost" default="default" phingVersion="2.7.0" description="Test and build the puppet module. Note all test related targets need to be run from within the vagrant virtual machine.">
+<project name="mtbvang-devhost"
+         default="default"
+         phingVersion="2.7.0"
+         description="Test and build the puppet module. Note all test related targets need to be run from within the vagrant virtual machine.">
 
 	<property environment="env" />
 	<property name="build.dir" value="${project.basedir}" />
@@ -12,11 +15,13 @@
 	<property name="image.version" value="14.04" />
 	<property name="image.name" value="ubuntu-vagrant" />
 
-	<property name="option.localtime" value="/usr/share/zoneinfo/Europe/Copenhagen" />
+	<property name="option.localtime"
+	          value="/usr/share/zoneinfo/Europe/Copenhagen" />
 
 	<property name="test.pass.code" value="0" />
 
-	<target name="default" description="Prints out available targets in this project.">
+	<target name="default"
+	        description="Prints out available targets in this project.">
 		<exec command="phing -l" passthru="true" />
 		<echo msg="testing=${testing}" />
 	</target>
@@ -30,13 +35,19 @@
 		<delete dir="build" />
 	</target>
 
-	<target name="test-bootstrap" depends="build-init" description="Downloads the boostrap script from github and runs it in the build directory to provision the machine.">
-		<exec command="curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh" dir="build" passthru="false" />
+	<target name="test-bootstrap"
+	        depends="build-init"
+	        description="Downloads the boostrap script from github and runs it in the build directory to provision the machine.">
+		<exec command="curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh"
+		      dir="build"
+		      passthru="false" />
 		<exec command="chmod +x bootstrap.sh" dir="build" passthru="false" />
 		<exec command="sudo ./bootstrap.sh" dir="build" passthru="true" />
 	</target>
 
-	<target name="test-bootstrap-local" depends="build-init" description="Runs the boostrap script from with the local parameter which uses the local files instead of github.">
+	<target name="test-bootstrap-local"
+	        depends="build-init"
+	        description="Runs the boostrap script from with the local parameter which uses the local files instead of github.">
 		<exec command="sudo ./bootstrap.sh local" dir="." passthru="true" />
 	</target>
 
@@ -47,9 +58,11 @@
 	<property name="option.apply.manifest" value="manifests/site.pp" />
 
 
-	<property name="test.command" value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} ${option.test.manifest} " />
+	<property name="test.command"
+	          value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} ${option.test.manifest} " />
 	<echo message="test.command: ${test.command}" />
-	<property name="apply.command" value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} ${option.apply.manifest} " />
+	<property name="apply.command"
+	          value="sudo puppet apply ${option.puppet.options} --modulepath=${option.module.path} ${option.apply.manifest} " />
 	<echo message="apply.command: ${apply.command}" />
 
 	<target name="clean-test-smoke">
@@ -57,8 +70,16 @@
 		<delete file="build/test-smoke.error" />
 	</target>
 
-	<target name="test-smoke" depends="build-init, librarian-puppet-update" description="Tests the devhost class by running up the vagrant testing VM and provisioning with puppet.">
-		<exec passthru="true" checkreturn="true" returnProperty="test.result" outputProperty="test.output" output="build/test-smoke.stdout" error="build/test-smoke.error" command="vagrant destroy -f smoketest &amp;&amp; vagrant up smoketest" />
+	<target name="test-smoke"
+	        depends="build-init, librarian-puppet-update"
+	        description="Tests the devhost class by running up the vagrant testing VM and provisioning with puppet.">
+		<exec passthru="true"
+		      checkreturn="true"
+		      returnProperty="test.result"
+		      outputProperty="test.output"
+		      output="build/test-smoke.stdout"
+		      error="build/test-smoke.error"
+		      command="vagrant destroy -f smoketest &amp;&amp; vagrant up smoketest" />
 		<echo msg="test.output=${test.output}" />
 		<echo msg="test.result=${test.result}" />
 		<phingcall target="test-check-result">
@@ -66,8 +87,28 @@
 		</phingcall>
 	</target>
 
-	<target name="test-integration" depends="" description="Runs the Beaker acceptance tests.">
-		<exec passthru="true" checkreturn="true" returnProperty="test.result" outputProperty="test.output" output="build/test-smoke.stdout" error="build/test-smoke.error" command="BEAKER_set=ubuntu-server-1404-x32 bundle exec rake beaker" />
+	<target name="bundle-install"
+	        depends=""
+	        description="Installs the gems decleared in the Gemfile.">
+		<exec passthru="true"
+		      checkreturn="true"
+		      returnProperty="test.result"
+		      outputProperty="test.output"
+		      output="build/test-smoke.stdout"
+		      error="build/test-smoke.error"
+		      command="bundle install" />
+	</target>
+
+	<target name="test-integration"
+	        depends=""
+	        description="Runs the Beaker acceptance tests. Requires the gems isntalled by target bundle-install.">
+		<exec passthru="true"
+		      checkreturn="true"
+		      returnProperty="test.result"
+		      outputProperty="test.output"
+		      output="build/test-smoke.stdout"
+		      error="build/test-smoke.error"
+		      command="BEAKER_set=ubuntu-server-1404-x32 bundle exec rake beaker" />
 		<echo msg="test.output=${test.output}" />
 		<echo msg="test.result=${test.result}" />
 		<phingcall target="test-check-result">
@@ -75,13 +116,21 @@
 		</phingcall>
 	</target>
 
-	<target name="puppet-apply" depends="build-init, librarian-puppet-install" description="Does a puppet apply of the devhost class to the machine that this build script is run from.">
-		<exec passthru="false" checkreturn="true" output="build/puppet-apply-devhost-ubuntutrusty.stdout" error="build/puppet-apply-devhost-ubuntutrusty.error" command="${apply.command} " />
+	<target name="puppet-apply"
+	        depends="build-init, librarian-puppet-install"
+	        description="Does a puppet apply of the devhost class to the machine that this build script is run from.">
+		<exec passthru="false"
+		      checkreturn="true"
+		      output="build/puppet-apply-devhost-ubuntutrusty.stdout"
+		      error="build/puppet-apply-devhost-ubuntutrusty.error"
+		      command="${apply.command} " />
 	</target>
 
 	<target name="test-parse-logs">
-		<exec command="grep 'Error:' build/test-smoke.stdout" outputProperty="grep.stdout.log" />
-		<exec command="grep 'Error:' build/test-smoke.error" outputProperty="grep.error.log" />
+		<exec command="grep 'Error:' build/test-smoke.stdout"
+		      outputProperty="grep.stdout.log" />
+		<exec command="grep 'Error:' build/test-smoke.error"
+		      outputProperty="grep.error.log" />
 	</target>
 
 	<target name="test-check-result" depends="test-parse-logs">
@@ -103,60 +152,88 @@
 		</if>
 	</target>
 
-	<target name="librarian-puppet-update" depends="build-init" description="Runs librarian-puppet update. Only runs if option.modules.update property is set to any value e.g. -Doption.modules.update=true.">
+	<target name="librarian-puppet-update"
+	        depends="build-init"
+	        description="Runs librarian-puppet update. Only runs if option.modules.update property is set to any value e.g. -Doption.modules.update=true.">
 		<exec passthru="true" command="librarian-puppet update --verbose" />
 	</target>
 
-	<target name="librarian-puppet-install" unless="modules.exists" depends="build-init" description="Runs librarian-puppet install">
-		<exec passthru="true" command="librarian-puppet install --path=modules --verbose" />
+	<target name="librarian-puppet-install"
+	        unless="modules.exists"
+	        depends="build-init"
+	        description="Runs librarian-puppet install">
+		<exec passthru="true"
+		      command="librarian-puppet install --path=modules --verbose" />
 	</target>
 
 
 	<!-- Vagrant related targets -->
 
-	<target name="vagrant-up-all" depends="vagrant-up" description="Starts all machines in the correct order.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up --no-parallel --provider=virtualbox --provision" passthru="true" />
+	<target name="vagrant-up-all"
+	        depends="vagrant-up"
+	        description="Starts all machines in the correct order.">
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up --no-parallel --provider=virtualbox --provision"
+		      passthru="true" />
 	</target>
 
-	<target name="vagrant-halt-all" description="Halts all machines in the correct order.">
+	<target name="vagrant-halt-all"
+	        description="Halts all machines in the correct order.">
 		<exec command="vagrant halt" passthru="true" />
 	</target>
 
-	<target name="vagrant-rebuild-all" depends="vagrant-rebuild" description="Rebuilds all machines in the correct order." />
+	<target name="vagrant-rebuild-all"
+	        depends="vagrant-rebuild"
+	        description="Rebuilds all machines in the correct order." />
 
-	<target name="vagrant-destroy-all" depends="vagrant-destroy" description="Destroys all machines in the correct order." />
+	<target name="vagrant-destroy-all"
+	        depends="vagrant-destroy"
+	        description="Destroys all machines in the correct order." />
 
-	<target name="vagrant-reload-all" description="Restarts all machines in the correct order.">
+	<target name="vagrant-reload-all"
+	        description="Restarts all machines in the correct order.">
 		<exec command="vagrant reload dev" passthru="true" />
 	</target>
 
-	<target name="vagrant-rebuild" depends="vagrant-destroy, 
-		vagrant-up" description="Vagrant destroy and up of dev testing machine." />
+	<target name="vagrant-rebuild"
+	        depends="vagrant-destroy, 
+		vagrant-up"
+	        description="Vagrant destroy and up of dev testing machine." />
 
-	<target name="vagrant-destroy" description="Vagrant destroy the dev testing machine.">
+	<target name="vagrant-destroy"
+	        description="Vagrant destroy the dev testing machine.">
 		<exec command="vagrant destroy -f dev" passthru="true" />
 	</target>
 
 	<target name="vagrant-up" description="Vagrant up the dev testing machine.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up dev --provider=virtualbox --provision" passthru="true" />
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up dev --provider=virtualbox --provision"
+		      passthru="true" />
 	</target>
 
-	<target name="vagrant-provision" description="Vagrant up the dev testing machine.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision" passthru="true" />
+	<target name="vagrant-provision"
+	        description="Vagrant up the dev testing machine.">
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision"
+		      passthru="true" />
 	</target>
 
-	<target name="vagrant-export-ssh-config" depends="build-init" description="Dumps the vagrant ssh configs to ssh-config file.">
-		<exec command="vagrant ssh-config > build/vagrant-ssh" passthru="true" />
+	<target name="vagrant-export-ssh-config"
+	        depends="build-init"
+	        description="Dumps the vagrant ssh configs to ssh-config file.">
+		<exec command="vagrant ssh-config > build/vagrant-ssh"
+		      passthru="true" />
 	</target>
 
 	<!-- Docker related targets -->
 
-	<target name="docker-inspect" description="Gets the specified attribute value for the specified container. A container id or name must be passed in using option.container.id argument and a formate string e.g. .NetworkSettings.IPAddress using option.inspect.format argument.">
-		<exec command="docker inspect --format '{{ ${option.inspect.format} }}' ${option.container.id}" passthru="true" />
+	<target name="docker-inspect"
+	        description="Gets the specified attribute value for the specified container. A container id or name must be passed in using option.container.id argument and a formate string e.g. .NetworkSettings.IPAddress using option.inspect.format argument.">
+		<exec command="docker inspect --format '{{ ${option.inspect.format} }}' ${option.container.id}"
+		      passthru="true" />
 	</target>
 
-	<target name="docker-container-ip" description="Gets the IP for the specified container. A container id must be passed in using option.container.id argument.">
-		<exec command="docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${option.container.id}" passthru="true" />
+	<target name="docker-container-ip"
+	        description="Gets the IP for the specified container. A container id must be passed in using option.container.id argument.">
+		<exec command="docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${option.container.id}"
+		      passthru="true" />
 	</target>
 
 </project>

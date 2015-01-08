@@ -67,6 +67,7 @@ class devhost (
   $installDropbox        = true,
   $installSkype          = true,
   $installVagrant        = true,
+  $installPhing          = true,
   $uninstallPkgs         = $devhost::params::uninstallPkgs,
   $dockerVersion         = '1.3.1',
   $dockerServiceProvider = 'upstart',
