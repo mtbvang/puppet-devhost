@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PUPPET_VERSION=$1
+FORCEK_PUPPET=$2
 
 # Install puppet
 add-apt-repository multiverse
@@ -8,7 +9,7 @@ apt-get install -yq wget dialog
 
 ### Install puppet
 PUPPET_OK=$(dpkg-query -l puppet | grep ${PUPPET_VERSION}puppetlabs1)
-if [ "" == "$PUPPET_OK" ]; then
+if [ "" == "$PUPPET_OK" ] || [ "$FORCEK_PUPPET" = "true" ]; then
 	echo "Puppet not installed. Installing."
 	wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 	dpkg -i puppetlabs-release-trusty.deb
@@ -31,7 +32,7 @@ cd /vagrant
 echo "pwd: $(pwd)"
 librarian-puppet update --verbose
 
-# TODO copy files to modules folder
+# Copy files to modules folder
 mkdir -p modules/devhost
 cp -rf files modules/devhost/files
 cp -rf manifests modules/devhost/manifests

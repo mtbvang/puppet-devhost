@@ -28,8 +28,8 @@ class devhost::ubuntu::trusty::install () {
   }
   contain mtbvang::ubuntu::virtualbox
 
-  class { '::devhost::ubuntu::docker': version => $devhost::dockerVersion, }
-  contain 'devhost::ubuntu::docker'
+  class { '::mtbvang::ubuntu::docker': version => $devhost::dockerVersion, }
+  contain 'mtbvang::ubuntu::docker'
 
   class { 'devhost::sublimetext2': }
   contain devhost::sublimetext2

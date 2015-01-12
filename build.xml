@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="mtbvang-devhost"
+<project name="devhost"
          default="default"
          phingVersion="2.7.0"
          description="Test and build the puppet module. Note all test related targets need to be run from within the vagrant virtual machine.">
@@ -67,7 +67,7 @@
 	</target>
 
 	<target name="test-smoke"
-	        depends="build-init, librarian-puppet-update"
+	        depends="build-init, librarian-puppet-update, librarian-puppet-local-deploy"
 	        description="Tests the devhost class by running up the vagrant testing VM and provisioning with puppet.">
 		<exec passthru="true"
 		      checkreturn="true"
@@ -89,15 +89,15 @@
 		<exec passthru="true" command="bundle install" />
 	</target>
 
-	<target name="test-integration"
+	<target name="test-acceptance"
 	        depends="bundle-install"
-	        description="Runs the Beaker acceptance tests. Requires the gems installed by target bundle-install. To see output tail -f build/test-integration.stdout">
+	        description="Runs the Beaker acceptance tests. Requires the gems installed by target bundle-install. To see output tail -f build/test-acceptance.stdout">
 		<exec passthru="true"
 		      checkreturn="true"
 		      returnProperty="test.result"
 		      outputProperty="test.output"
-		      output="build/test-integration.stdout"
-		      error="build/test-integration.error"
+		      output="build/test-acceptance.stdout"
+		      error="build/test-acceptance.error"
 		      command="BEAKER_set=ubuntu-server-1404-x64 bundle exec rake beaker" />
 		<echo msg="test.output=${test.output}" />
 		<echo msg="test.result=${test.result}" />
@@ -158,7 +158,7 @@
 
 	<target name="librarian-puppet-local-deploy"
 	        description="Copies the local files to the librarian puppet modules folder so we can do standalone provisioning with puppet.">
-		<copy todir="modules/devhost">
+		<copy todir="modules/${phing.project.name}">
 			<fileset defaultexcludes="false" expandsymboliclinks="true" dir=".">
 				<include name="files/**" />
 				<include name="manifests/**" />
@@ -171,49 +171,37 @@
 
 	<!-- Vagrant related targets -->
 
-	<target name="vagrant-up-all"
-	        depends="vagrant-up"
-	        description="Starts all machines in the correct order.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up --no-parallel --provider=virtualbox --provision"
-		      passthru="true" />
-	</target>
-
-	<target name="vagrant-halt-all"
-	        description="Halts all machines in the correct order.">
-		<exec command="vagrant halt" passthru="true" />
-	</target>
-
-	<target name="vagrant-rebuild-all"
-	        depends="vagrant-rebuild"
-	        description="Rebuilds all machines in the correct order." />
-
-	<target name="vagrant-destroy-all"
-	        depends="vagrant-destroy"
-	        description="Destroys all machines in the correct order." />
-
-	<target name="vagrant-reload-all"
-	        description="Restarts all machines in the correct order.">
-		<exec command="vagrant reload dev" passthru="true" />
-	</target>
-
-	<target name="vagrant-rebuild"
-	        depends="vagrant-destroy, 
-		vagrant-up"
+	<target name="vagrant-rebuild-dev"
+	        depends="vagrant-destroy-dev, 
+	    vagrant-up-dev"
 	        description="Vagrant destroy and up of dev testing machine." />
 
-	<target name="vagrant-destroy"
+	<target name="vagrant-destroy-dev"
 	        description="Vagrant destroy the dev testing machine.">
 		<exec command="vagrant destroy -f dev" passthru="true" />
 	</target>
 
-	<target name="vagrant-up" description="Vagrant up the dev testing machine.">
+	<target name="vagrant-up-dev"
+	        description="Vagrant up the dev testing machine.">
 		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up dev --provider=virtualbox --provision"
 		      passthru="true" />
 	</target>
 
-	<target name="vagrant-provision"
+	<target name="vagrant-provision-dev"
 	        description="Vagrant up the dev testing machine.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision"
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision dev"
+		      passthru="true" />
+	</target>
+
+	<target name="vagrant-provision-smoketest"
+	        description="Run all provisioners on the vagrant smoketest machine.">
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision smoketest"
+		      passthru="true" />
+	</target>
+
+	<target name="vagrant-provision-smoketest-puppet"
+	        description="Run only the puppet provisioners on the vagrant smoketest machine. Excludes the shell provisioner boostrap tasks.">
+		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision smoketest --provision-with puppet"
 		      passthru="true" />
 	</target>
 
