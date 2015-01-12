@@ -10,9 +10,9 @@ group :test do
 end
 
 group :development do
-  gem "beaker"
-  gem "beaker-rspec"
-  gem "pry"
-  gem "vagrant-wrapper"
-  gem "beaker-librarian"
+  gem "beaker", '~> 2.2.0'
+  gem "beaker-rspec", '~> 5.0.0'
+  gem "pry", '>= 0.10.1'
+  gem "vagrant-wrapper", '~> 1.2.0'
+  gem "beaker-librarian", '>= 0.0.1'
 end
