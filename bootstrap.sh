@@ -1,6 +1,12 @@
 #!/bin/bash
 
-# Installs the tools on a Ubuntu 14.04 OS to enable it to be provisioned by the puppet manifests in the devhost project.
+# Installs the preprovisioning tools on a Ubuntu 14.04 OS to enable it to be provisioned.
+# Arguments:
+#	1) true|false 	- Set to true to FORCE_PUPPET to be installed at the version specified in variable PUPPET_VERSION
+#	2) github|local - Github installs the devhost module from github. Local installs the local files to the modules folder.
+# Example Usage:
+#	./bootstrap.sh true local
+# 
 
 trim() {
     local var=$@
@@ -9,14 +15,14 @@ trim() {
     echo -n "$var"
 }
 
-FORCEPROVISION=$1
+FORCE_PUPPET=$(trim $1)
 SRC_REPO=$(trim $2)
 
 PUPPET_VERSION=3.7.3-1
 PHING_VERSION=2.7.0
 
 echo "SRC_REPO='${SRC_REPO}'"
-echo "FORCEPROVISION='${FORCEPROVISION}'"
+echo "FORCE_PUPPET='${FORCE_PUPPET}'"
 
 add-apt-repository multiverse
 apt-get update
@@ -35,7 +41,7 @@ fi
 
 ### Install puppet
 PUPPET_OK=$(dpkg-query -l puppet | grep puppet)
-if [ "" == "$PUPPET_OK" ] || [ "$FORCEPROVISION" = "true" ]; then
+if [ "" == "$PUPPET_OK" ] || [ "$FORCE_PUPPET" = "true" ]; then
 	echo "Puppet not installed. Installing."
 	wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 	dpkg -i puppetlabs-release-trusty.deb
