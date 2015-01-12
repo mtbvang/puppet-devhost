@@ -33,7 +33,7 @@
 
 	<target name="test-bootstrap"
 	        depends="build-init"
-	        description="Downloads the boostrap script from github and runs it in the build directory to provision the machine.">
+	        description="Downloads the boostrap script from github and runs it in the build directory to provision the machine. NOTE: This installs on the OS.">
 		<exec command="curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh"
 		      dir="build"
 		      passthru="false" />
@@ -68,7 +68,7 @@
 
 	<target name="test-smoke"
 	        depends="build-init, librarian-puppet-update, librarian-puppet-local-deploy"
-	        description="Tests the devhost class by running up the vagrant testing VM and provisioning with puppet.">
+	        description="Tests the devhost class by starting up a fresh vagrant smoke VM and provisioning with puppet. Tail the test-smoke.stdout and error files in build dir for output.">
 		<exec passthru="true"
 		      checkreturn="true"
 		      returnProperty="test.result"
