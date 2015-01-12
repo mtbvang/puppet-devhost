@@ -98,7 +98,7 @@
 		      outputProperty="test.output"
 		      output="build/test-integration.stdout"
 		      error="build/test-integration.error"
-		      command="BEAKER_set=ubuntu-server-1404-x32 bundle exec rake beaker" />
+		      command="BEAKER_set=ubuntu-server-1404-x64 bundle exec rake beaker" />
 		<echo msg="test.output=${test.output}" />
 		<echo msg="test.result=${test.result}" />
 		<phingcall target="test-check-result">
