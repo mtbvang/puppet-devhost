@@ -10,8 +10,6 @@ class devhost::params {
   case $::osfamily {
     'Debian' : {
       $apacheRestart = 'service apache2 restart'
-      $librarianPuppetVersion = '1.3.2'
-      $librarianPuppetInstallCmd = "sudo gem install librarian-puppet -v ${librarianPuppetVersion} --source 'https://rubygems.org'"
       $sshPkgName = 'openssh-server'
       $updatePkgManager = 'apt-get update'
       # Packages to install on host development machines.

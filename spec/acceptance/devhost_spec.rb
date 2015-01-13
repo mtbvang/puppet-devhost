@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'devhost class' do
-
+  
   context 'default parameters' do
     it 'should work with no errors' do
       pp = <<-EOS

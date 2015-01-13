@@ -1751,7 +1751,7 @@
     "modules/stdlib/lib/puppet/parser/functions/str2bool.rb": "6320f1a50fd28ec027981cd1fb8ffdd0",
     ".tmp/librarian/cache/source/puppet/forge/forgeapi_puppetlabs_com/example42-php/2.0.18/php/manifests/pear/module.pp": "827d16d902a03357060c2e8798cf2b7a",
     "modules/epel/spec/classes/shared_base.rb": "3da138d7d6f8f80ca25d3789c88f8fac",
-    "build/test-smoke.stdout": "41bb911e365d61bfe003e455ca52a619",
+    "build/test-smoke.stdout": "6dc86d4932850c0d0ffdb7be2bf6d9ab",
     "modules/ssh/spec/classes/client_spec.rb": "ea8c68743b339077b59bf3f29f5ad3aa",
     "modules/apt/manifests/debian/unstable.pp": "cf5a4e7ecadb34856bb6fed17e58c822",
     ".tmp/librarian/cache/source/puppet/forge/forgeapi_puppetlabs_com/puppetlabs-inifile/1.2.0/inifile/spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",

@@ -40,9 +40,8 @@ class devhost::ubuntu::trusty::install () {
   class { 'devhost::ruby': }
   contain devhost::ruby
 
-  devhost::puppet::librarianpuppet { 'librarianPuppet':
+  mtbvang::puppet::librarianpuppet { 'librarianPuppet':
     require  => Class['devhost::ruby'],
-    userhome => "/home/${devhost::username}"
   }
 
   if $devhost::installSkype == true {
