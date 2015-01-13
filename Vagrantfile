@@ -29,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # Provisioning
-    st.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devpuppet': }\""
+    d.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devpuppet': }\""
 
     d.vm.provider "virtualbox" do |vb|
       # Headless mode boot
@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # Provisioning
-    st.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devpuppet': }\""
+    d.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devpuppet': }\""
 
     d.vm.provider "vmware" do |vw|
 

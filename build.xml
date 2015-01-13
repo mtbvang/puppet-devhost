@@ -44,7 +44,7 @@
 	<target name="test-bootstrap-local"
 	        depends="build-init"
 	        description="Runs the boostrap script from with the local parameter which uses the local files instead of github.">
-		<exec command="sudo ./bootstrap.sh local" dir="." passthru="true" />
+		<exec command="sudo ./bootstrap.sh true local" dir="." passthru="true" />
 	</target>
 
 	<!-- Smoke test targets -->
