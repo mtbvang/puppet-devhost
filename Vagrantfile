@@ -68,7 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     st.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
     st.vm.box_url = "https://vagrantcloud.com/puppetlabs/ubuntu-14.04-64-nocm"
 
-    st.vm.hostname = "vbox.dev.local"
+    st.vm.hostname = "devhost.dev.local"
     st.vbguest.auto_update = false
     st.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
 

@@ -65,7 +65,7 @@ describe 'devhost class' do
       it { should be_installed }
     end
 
-    describe command('phing --version') do
+    describe command('phing -version') do
       its(:stdout) { should match(/Phing 2.8.0/) }
     end
 
