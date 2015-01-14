@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'devhost class' do
-  
+
   context 'default parameters' do
     it 'should work with no errors' do
       pp = <<-EOS
@@ -35,6 +35,22 @@ describe 'devhost class' do
 
     describe command('vagrant -v') do
       its(:stdout) { should match(/Vagrant 1.6.3/) }
+    end
+
+    describe command('vagrant plugin list | grep vagrant-cachier') do
+      its(:stdout) { should match(/vagrant-cachier (1.1.0)/) }
+    end
+
+    describe command('vagrant plugin list | grep vagrant-hosts') do
+      its(:stdout) { should match(/vagrant-cachier (2.1.5)/) }
+    end
+
+    describe command('vagrant plugin list | grep vagrant-hostsupdater') do
+      its(:stdout) { should match(/vagrant-cachier (0.0.11)/) }
+    end
+
+    describe command('vagrant plugin list | grep vagrant-vbguest') do
+      its(:stdout) { should match(/vagrant-cachier (0.10.0)/) }
     end
 
     describe package('virtualbox-4.3') do
