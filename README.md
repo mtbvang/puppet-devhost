@@ -7,15 +7,15 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with devhost](#beginning-with-devhost)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-A puppet module for provisioning development host machines with the tools for container and VM based development environments. 
+A puppet module that provisions a Ubuntu 14.04 64bit development host machines with the tools for container and VM based 
+development environments. 
+
 The aim is to only have the absolute necessary tools on the host, docker, vagrant, virtualisation tools (vbox, vmwre, kvm et.).
-All other project build and develop dependencies are install on a vagrant dev machine to allow true multi-project work.
+All other project build and develop dependencies are install on a vagrant dev machine to provide environments for multi-project 
+work.
 
 ## Module Description
 
@@ -79,27 +79,10 @@ Look at the boostrap files for options that can be set through arguments.
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
-
-## Reference
-
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+The devhost class provides some parameters that can be used to configure
 
 ## Limitations
 
 Supports only Ubuntu 14.04 64bit. 
 
-## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
