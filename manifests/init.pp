@@ -75,7 +75,7 @@ class devhost (
   $vagrantHostPluginVersion        = "2.1.5",
   $vagrantVbguestPluginVersion     = "0.10.0",
   $vagrantHostsupdatePluginVersion = "0.0.11",
-  $vagrantCachierPluginVersion     = "1.1.0") inherits params {
+  $vagrantCachierPluginVersion     = "1.1.0") inherits devhost::params {
   Exec {
     path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 
