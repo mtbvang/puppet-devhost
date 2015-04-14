@@ -40,7 +40,7 @@ class devhost::ubuntu::trusty::install () {
   class { 'devhost::ruby': }
   contain devhost::ruby
 
-  mtbvang::puppet::librarianpuppet { 'librarianPuppet':
+  class { 'mtbvang::puppet::librarianpuppet' :
     require  => Class['devhost::ruby'],
   }
 

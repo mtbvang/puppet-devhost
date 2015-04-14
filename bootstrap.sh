@@ -123,5 +123,5 @@ installTools
 installPuppet
 installLibrarian
 provision
-cleanup
+#cleanup
 #resetPwd

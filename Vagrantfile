@@ -5,8 +5,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "trusty-desktop-amd64.box"
-
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
   end
@@ -16,9 +14,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # 64bit nesting works with VMWare provider.
   config.vm.define "dev-vbox" do |d|
     d.vm.hostname = "devhost.dev.local"
-    d.vm.box = "ubuntu-14.04-amd64-vbox-desktop"
-    d.vm.box_url = "https://drive.google.com/file/d/0B8pj-t-rM-7BYU1NY3NkeUlLZFU/view?usp=sharing"
 
+    d.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
+    d.vm.box_url = "https://vagrantcloud.com/puppetlabs/ubuntu-14.04-64-nocm"
+    
     d.vbguest.auto_update = false
     d.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
 
@@ -33,7 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     d.vm.provider "virtualbox" do |vb|
       # Headless mode boot
-      vb.gui = true
+      vb.gui = false
       # Use VBoxManage to customize the VM. For example to change memory:
       vb.customize ["modifyvm", :id, "--memory", "4096", "--vram", "128" ]
       vb.customize ["modifyvm", :id, "--nicpromisc1", "allow-all" ]
