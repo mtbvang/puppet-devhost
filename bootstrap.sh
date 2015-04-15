@@ -111,7 +111,7 @@ resetPwd() {
 }
 
 # Command line options with default values.
-USER==$(trim ${1:-dev})					
+USER=$(trim ${1:-dev})					
 FORCE_PUPPET=$(trim ${2:-true})			
 SRC_REPO=$(trim ${3:-github})			
 PUPPET_VERSION=$(trim ${4:-3.7.3-1})	# string: version of puppet to install.
