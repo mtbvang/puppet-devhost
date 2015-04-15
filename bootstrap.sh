@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Provisons a Ubuntu 14.04 64bit OS with the devhost module. Functions are defined and called at the bottom of the script.
+# Provisons a Ubuntu 14.04 64bit OS with the devhost module. You'll likely want to override the USER argument so that it doesn't install in the default dev user account.
 #
 # Arguments:
-#	1) true|false 	- Default true. Set to true to FORCE_PUPPET to be installed at the version specified in variable PUPPET_VERSION
-#	2) github|local - Default github. Github installs the devhost module from github. Local installs the local files to the 
-#					  modules folder.
-#   3) version number - Default 3.7.3-1. Version number of Ubuntu puppet deb package.
-#	4) version number - Default 2.8.0. Version of Pear Phing package.
+# 	1) USER 			string: Default 'dev' - Account to provision.
+#	2) FORCE_PUPPET		boolean: Default 'true' - True forces re/install of puppet.
+#	3) SRC_REPO 		string github|local: Default 'github' - Which devhost source files to use. Github downloads them from github. Local uses files in manifests dir.
+#   4) PUPPET_VERSION 	string: Default 3.7.3-1 - Version number of Ubuntu puppet deb package.
+#	5) PHING_VERSION	string: Default 2.8.0 - Version of Pear Phing package.
 #
 # Example Usage:
 #	sudo ./boostrap.sh
-#	sudo ./bootstrap.sh true github 3.7.3-1 2.8.0
+#	sudo ./bootstrap.sh dev true github 3.7.3-1 2.8.0
 # 
 
 # Remove leading and trailing whitespace chars.
@@ -25,6 +25,7 @@ trim() {
 init() {
 	add-apt-repository multiverse
 	apt-get update
+	mkdir -p build
 }
 
 installTools() {
@@ -45,8 +46,8 @@ installPuppet() {
 	PUPPET_OK=$(dpkg-query -l puppet | grep puppet)
 	if [ "" == "$PUPPET_OK" ] || [ "$FORCE_PUPPET" = "true" ]; then
 		echo "Puppet not installed. Installing."
-		wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
-		dpkg -i puppetlabs-release-trusty.deb
+		wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb -P build
+		dpkg -i build/puppetlabs-release-trusty.deb
 		apt-get update
 		apt-get install -yq puppet-common=${PUPPET_VERSION}puppetlabs1 puppet=${PUPPET_VERSION}puppetlabs1 
 	else 
@@ -95,7 +96,7 @@ provision() {
 		fi
 	fi
 
-	puppet apply --summarize --modulepath=modules -e "class { 'devhost': }"
+	puppet apply --summarize --modulepath=modules -e "class { 'devhost': username => ${USER}}"
 }
 
 cleanup() {
@@ -109,10 +110,12 @@ resetPwd() {
 	passwd dev
 }
 
-FORCE_PUPPET=$(trim ${1:-true})
-SRC_REPO=$(trim ${2:-github})
-PUPPET_VERSION=$(trim ${3:-3.7.3-1})
-PHING_VERSION=$(trim ${4:-2.8.0})
+# Command line options with default values.
+USER==$(trim ${1:-dev})					
+FORCE_PUPPET=$(trim ${2:-true})			
+SRC_REPO=$(trim ${3:-github})			
+PUPPET_VERSION=$(trim ${4:-3.7.3-1})	# string: version of puppet to install.
+PHING_VERSION=$(trim ${5:-2.8.0})		# string: version of phing to install.
 
 #echo "SRC_REPO='${SRC_REPO}'"
 #echo "FORCE_PUPPET='${FORCE_PUPPET}'"
