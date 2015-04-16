@@ -9,58 +9,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  # Virtual development environment containing all the tools necessary to do development work on devhost.
-  # Note: Can't run acceptance tests as vbox doesn't support nested 64bit and there is no 32bit docker package.
-  # 64bit nesting works with VMWare provider.
-  config.vm.define "dev-vbox" do |d|
-    d.vm.hostname = "devhost.dev.local"
-
-    d.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
-    d.vm.box_url = "https://vagrantcloud.com/puppetlabs/ubuntu-14.04-64-nocm"
-    
-    d.vbguest.auto_update = false
-    d.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
-
-    # Preprovisioning bootstrap
-    d.vm.provision "shell" do |s|
-      s.path = "vagrant/bootstrap.sh"
-      s.args = "3.7.3-1 true"
-    end
-
-    # Provisioning
-    d.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devpuppet': }\""
-
-    d.vm.provider "virtualbox" do |vb|
-      # Headless mode boot
-      vb.gui = false
-      # Use VBoxManage to customize the VM. For example to change memory:
-      vb.customize ["modifyvm", :id, "--memory", "4096", "--vram", "128" ]
-      vb.customize ["modifyvm", :id, "--nicpromisc1", "allow-all" ]
-    end
-  end
-
-  config.vm.define "dev-vmware" do |d|
-    d.vm.hostname = "devhost.dev.local"
-    d.vm.box = "ubuntu-14.04-amd64-vbox-desktop"
-    d.vm.box_url = "https://drive.google.com/file/d/0B8pj-t-rM-7BYU1NY3NkeUlLZFU/view?usp=sharing"
-
-    d.vbguest.auto_update = false
-    d.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso'
-
-    # Preprovisioning bootstrap
-    d.vm.provision "shell" do |s|
-      s.path = "vagrant/bootstrap.sh"
-      s.args = "3.7.3-1 true"
-    end
-
-    # Provisioning
-    d.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devpuppet': }\""
-
-    d.vm.provider "vmware" do |vw|
-
-    end
-  end
-
   # A Ubuntu Trusty machine for smoke testing this module.
   config.vm.define "smoketest",  primary: true do |st|
 
@@ -76,9 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       s.path = "vagrant/bootstrap.sh"
       s.args = "3.6.2-1"
     end
-
-    # Provision with shell provisioner
-    # st.vm.provision "shell", inline: "cd /vagrant; puppet apply --summarize --modulepath=modules --graph --graphdir '/vagrant/build' -e \"class { 'devhost': }\""
 
     # Provision with puppet provisioner
     st.vm.provision "puppet" do |puppet|

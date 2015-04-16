@@ -96,7 +96,7 @@ provision() {
 		fi
 	fi
 
-	puppet apply --summarize --modulepath=modules -e "class { 'devhost': username => ${USER}}"
+	puppet apply --summarize --modulepath=modules -e "class { 'devhost': username => ${USER}, userhome => '/home/${USER}'}"
 }
 
 cleanup() {

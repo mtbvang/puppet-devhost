@@ -1,1 +1,1 @@
-class { 'devhost': }
+class { 'devhost':  username => 'vagrant', userhome => '/home/vagrant' }

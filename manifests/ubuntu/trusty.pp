@@ -2,12 +2,6 @@
 # Provision a Ubuntu Trusty OS.
 #
 class devhost::ubuntu::trusty () {
-  devhost::users { 'defaultuser':
-    username => $devhost::username,
-    home     => $devhost::userhome,
-    groups   => $devhost::userGroups,
-    password => $devhost::userPassword,
-  } ->
   class { 'devhost::ubuntu::trusty::install': } ->
   class { 'devhost::ubuntu::trusty::config': }
 
@@ -20,7 +14,10 @@ class devhost::ubuntu::trusty::install () {
   contain devhost::ubuntu::eclipse
 
   if $devhost::installVagrant == true {
-    class { 'mtbvang::ubuntu::vagrant': }
+    class { 'mtbvang::ubuntu::vagrant':
+      user     => $devhost::username,
+      userHome => $devhost::userhome
+    }
     contain mtbvang::ubuntu::vagrant
   }
 
@@ -40,9 +37,7 @@ class devhost::ubuntu::trusty::install () {
   class { 'devhost::ruby': }
   contain devhost::ruby
 
-  class { 'mtbvang::puppet::librarianpuppet' :
-    require  => Class['devhost::ruby'],
-  }
+  class { 'mtbvang::puppet::librarianpuppet': require => Class['devhost::ruby'], }
 
   if $devhost::installSkype == true {
     class { 'mtbvang::ubuntu::skype': }
