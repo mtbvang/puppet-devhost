@@ -7,7 +7,7 @@ FORCEK_PUPPET=$2
 apt-get install -yq software-properties-common
 add-apt-repository multiverse
 apt-get update
-apt-get install -yq wget dialog rubygems-integration
+apt-get install -yq wget dialog rubygems-integration git
 
 ### Install puppet
 PUPPET_OK=$(dpkg-query -l puppet | grep ${PUPPET_VERSION}puppetlabs1)
@@ -29,13 +29,13 @@ fi
 # Ensure build dir exists.
 mkdir -p /vagrant/build
 
-# Run librarian puppet
+# Run librarian puppet to get all required dependencies
 cd /vagrant
 echo "pwd: $(pwd)"
 gem install librarian-puppet
 librarian-puppet update --verbose
 
-# Copy files to modules folder
+# Copy devhost files to modules folder so puppet gets access
 mkdir -p modules/devhost
-cp -rf files modules/devhost/files
-cp -rf manifests modules/devhost/manifests
+cp -rf files modules/devhost
+cp -rf manifests modules/devhost

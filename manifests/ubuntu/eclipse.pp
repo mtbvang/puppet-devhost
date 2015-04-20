@@ -2,7 +2,6 @@ class devhost::ubuntu::eclipse (
   $package = "eclipse-standard-kepler-SR2-linux-gtk-x86_64.tar.gz",
   $weburl  = "http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/kepler/SR2/eclipse-standard-kepler-SR2-linux-gtk-x86_64.tar.gz&r=1"
 ) {
-  require devhost::ubuntu::java
 
   ::eclipse { "eclipse":
     downloadurl        => $weburl,
@@ -113,6 +112,31 @@ class devhost::ubuntu::eclipse (
       'http://sourceforge.net/projects/shelled/files/shelled/update/'],
     pluginius             => ['net.sourceforge.shelled.feature.group/2.0.3'],
     checkforpluginfolders => ['net.sourceforge.shelled'],
+    suppresserrors        => true
+  }
+
+  ::eclipse::plugin { 'nodeclipse':
+    require               => ::Eclipse['eclipse'],
+    pluginrepositories    => ['http://www.nodeclipse.org/updates/'],
+    pluginius             => [
+      'code.satyagraha.gfm.viewer.feature.feature.group/1.8.3',
+      'com.eclipsesource.jshint.feature.feature.group/0.9.9.20131029-1050',
+      'jsonedit-feature.feature.group/0.9.7',
+      'markdown.editor.feature.feature.group/1.1.0.201402240523',
+      'org.nodeclipse.enide.editors.jade.feature.feature.group/0.17.0.201409260936',
+      'org.chromium.sdk.feature.group/0.3.9.201409260936',
+      'org.chromium.debug.feature.group/0.3.9.201409260936',
+      'org.nodeclipse.feature.group/0.17.0.201409260936',
+      'org.nodeclipse.mongodb.feature.feature.group/0.17.0.201409260936',
+      'org.nodeclipse.pluginslist.feature.feature.group/0.1.0.20130811-1427',
+      'code.google.restclient.tool.feature.feature.group/1.0.3'],
+    checkforpluginfolders => [
+      'code.satyagraha.gfm',
+      'com.eclipsesource.jshint',
+      'jsonedit-feature',
+      'markdown.editor',
+      'org.nodeclipse',
+      'code.google.restclient'],
     suppresserrors        => true
   }
 

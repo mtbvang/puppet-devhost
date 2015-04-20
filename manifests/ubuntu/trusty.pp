@@ -9,8 +9,11 @@ class devhost::ubuntu::trusty () {
   contain devhost::ubuntu::trusty::config
 }
 
-class devhost::ubuntu::trusty::install () {
-  class { 'devhost::ubuntu::eclipse': }
+class devhost::ubuntu::trusty::install2 () {
+  class { 'devhost::ubuntu::java': }
+  contain devhost::ubuntu::java
+
+  class { 'devhost::ubuntu::eclipse': require => Class['devhost::ubuntu::java'] }
   contain devhost::ubuntu::eclipse
 
   if $devhost::installVagrant == true {
@@ -60,7 +63,13 @@ class devhost::ubuntu::trusty::install () {
 
 class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome = $devhost::userhome) {
   if $devhost::disableGuestAccount == true {
+    exec { 'ensureLightDMDirExists':
+      command   => "mkdir -p /usr/share/lightdm/lightdm.conf.d",
+      path      => ['/usr/bin', '/bin', '/sbin'],
+      logoutput => on_failure
+    } ->
     file { 'disableGuestAccount':
+      ensure  => present,
       path    => '/usr/share/lightdm/lightdm.conf.d/50-no-guest.conf',
       content => '[SeatDefaults]\nallow-guest=false\n',
     }

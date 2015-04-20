@@ -9,6 +9,8 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-import '../manifests/**/*.pp'
+#import '../manifests/**/*.pp'
 
-include devhost
+#include devhost
+class { 'devhost':  username => 'vagrant', userhome => '/home/vagrant' }
+contain devhost

@@ -25,11 +25,12 @@ RSpec.configure do |c|
     librarian_install_modules(proj_root, 'devhost')
     # Install module under test
     #puppet_module_install(:source => proj_root, :module_name => 'devhost')
-    hosts.each do |host|
+    hosts.each do |host|      
       on host, "echo project_root: #{proj_root}"
       on host, 'ls -la /etc/puppet/modules'
       on host, "echo #{host['distmoduledir']}"
       on host, 'puppet config print modulepath'
+      on host, "echo whoami: $(whoami)"
     end
   end
 end

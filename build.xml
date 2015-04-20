@@ -171,25 +171,9 @@
 
 	<!-- Vagrant related targets -->
 
-	<target name="vagrant-rebuild-dev"
-	        depends="vagrant-destroy-dev, 
-	    vagrant-up-dev"
-	        description="Vagrant destroy and up of dev testing machine." />
-
-	<target name="vagrant-destroy-dev"
-	        description="Vagrant destroy the dev testing machine.">
-		<exec command="vagrant destroy -f dev" passthru="true" />
-	</target>
-
-	<target name="vagrant-up-dev"
-	        description="Vagrant up the dev testing machine.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant up dev --provider=virtualbox --provision"
-		      passthru="true" />
-	</target>
-
-	<target name="vagrant-provision-dev"
-	        description="Vagrant up the dev testing machine.">
-		<exec command="export VAGRANT_LOCAL_TIME=${option.localtime}; vagrant provision dev"
+	<target name="vagrant-deploy-module"
+	        description="Copies the manifests to the modules folder for vagrant puppet provisioning">
+		<exec command="mkdir -p modules/devhost; cp -rf files modules/devhost; cp -rf manifests modules/devhost"
 		      passthru="true" />
 	</target>
 
@@ -208,8 +192,7 @@
 	<target name="vagrant-export-ssh-config"
 	        depends="build-init"
 	        description="Dumps the vagrant ssh configs to ssh-config file.">
-		<exec command="vagrant ssh-config > build/vagrant-ssh"
-		      passthru="true" />
+		<exec command="vagrant ssh-config > build/vagrant-ssh" passthru="true" />
 	</target>
 
 	<!-- Docker related targets -->

@@ -12,8 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # A Ubuntu Trusty machine for smoke testing this module.
   config.vm.define "smoketest",  primary: true do |st|
 
-    st.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
-    st.vm.box_url = "https://vagrantcloud.com/puppetlabs/ubuntu-14.04-64-nocm"
+    st.vm.box = "janihur/ubuntu-1404-desktop"
+    st.vm.box_url = "https://vagrantcloud.com/janihur/boxes/ubuntu-1404-desktop"
 
     st.vm.hostname = "devhost.dev.local"
     st.vbguest.auto_update = false
@@ -27,15 +27,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Provision with puppet provisioner
     st.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = "manifests"
-      puppet.manifest_file  = "default.pp"
+      puppet.manifests_path = "tests"
+      puppet.manifest_file  = "init.pp"
       puppet.module_path = ["modules"]
       puppet.options = "--summarize --graph --graphdir '/vagrant/build'"
     end
 
     # Optionally set lcoal timezone e.g. set command line env varialbe VAGRANT_LOCAL_TIME=/usr/share/zoneinfo/Europe/Copenhagen
     if ENV.key? "VAGRANT_LOCAL_TIME"
-      st.vm.provision "shell",
+      st.vm.inline "",
       inline: "cp #{ENV['VAGRANT_LOCAL_TIME']} /etc/localtime"
     end
 
