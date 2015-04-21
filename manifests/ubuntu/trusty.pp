@@ -129,6 +129,20 @@ class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome
     group  => $username,
     mode   => 644,
   }
+  
+  file { "/etc/bash_completion.d":
+    source => 'puppet:///modules/devhost/ubuntu/git-completion.bash',
+    owner  => $username,
+    group  => $username,
+    mode   => 644,
+  }
+  
+  file { "${userhome}/.gitconfig":
+    source => 'puppet:///modules/devhost/ubuntu/gitconfig',
+    owner  => $username,
+    group  => $username,
+    mode   => 644,
+  }
 
   exec { 'setDefaultTerminal':
     command   => "gsettings set org.gnome.desktop.default-applications.terminal exec /usr/bin/gnome-terminal",

@@ -1,0 +1,11 @@
+[user]
+  name = mtbvang
+  email = mtb.vang@gmail.com
+[alias]
+  co = checkout
+  br = branch  
+  st = status
+  ci = commit -v
+  unstage = reset HEAD --
+  last = log -1 HEAD
+  
