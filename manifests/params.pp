@@ -11,7 +11,6 @@ class devhost::params {
     'Debian' : {
       $apacheRestart = 'service apache2 restart'
       $sshPkgName = 'openssh-server'
-      $updatePkgManager = 'apt-get update'
       # Packages to install on host development machines.
       $installPkgs = [
         'chromium-browser',
@@ -34,10 +33,12 @@ class devhost::params {
         'subversion',
         'sysstat',
         'whois',
-        'xchat'
+        'xchat',
+        'gnome-terminal'
         ]
       $desktopPkgs = ['lubuntu-desktop']
       $dropboxPkg = 'nautilus-dropbox'
+      $bootstrapPkgs = ['software-properties-common']
 
       case $::lsbdistcodename {
         'trusty'  : {

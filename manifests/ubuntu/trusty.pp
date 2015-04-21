@@ -9,7 +9,10 @@ class devhost::ubuntu::trusty () {
   contain devhost::ubuntu::trusty::config
 }
 
-class devhost::ubuntu::trusty::install2 () {
+class devhost::ubuntu::trusty::install () {
+  class { '::apt': always_apt_update => true, }
+  contain apt
+
   class { 'devhost::ubuntu::java': }
   contain devhost::ubuntu::java
 
@@ -28,11 +31,14 @@ class devhost::ubuntu::trusty::install2 () {
   }
   contain mtbvang::ubuntu::virtualbox
 
-  class { '::mtbvang::ubuntu::docker': version => $devhost::dockerVersion, }
-  contain 'mtbvang::ubuntu::docker'
+  class { '::mtbvang::ubuntu::docker':
+    version          => $devhost::dockerVersion,
+    docker_sudo_user => $devhost::username
+  }
+  contain mtbvang::ubuntu::docker
 
-  class { 'devhost::sublimetext2': }
-  contain devhost::sublimetext2
+  class { 'devhost::sublimetext': }
+  contain devhost::sublimetext
 
   class { 'devhost::ubuntu::packages': }
   contain devhost::ubuntu::packages
@@ -109,4 +115,11 @@ class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome
     group   => $username,
     mode    => 644,
   }
+
+  exec { 'setDefaultTerminal':
+    command   => "gsettings set org.gnome.desktop.default-applications.terminal exec /usr/bin/gnome-terminal",
+    path      => ['/usr/bin', '/bin', '/sbin'],
+    logoutput => on_failure
+  }
+
 }

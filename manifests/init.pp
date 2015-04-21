@@ -79,18 +79,14 @@ class devhost (
   Exec {
     path => ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/", "/usr/local/bin"] }
 
-  $updatePkgManager = $devhost::params::updatePkgManager
-
-  exec { "updatePackageManager":
-    command => $updatePkgManager,
-    timeout => 600
-  }
+  class { 'devhost::bootstrap': }
+  contain devhost::bootstrap
 
   case $::osfamily {
     'Debian' : {
       case $::lsbdistcodename {
         'trusty' : {
-          class { 'devhost::ubuntu::trusty': require => Exec["updatePackageManager"] }
+          class { 'devhost::ubuntu::trusty': require => Class["devhost::bootstrap"] }
           contain devhost::ubuntu::trusty
         }
         default  : {
