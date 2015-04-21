@@ -130,7 +130,7 @@ class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome
     mode   => 644,
   }
   
-  file { "/etc/bash_completion.d":
+  file { "/etc/bash_completion.d/git-completion.bash":
     source => 'puppet:///modules/devhost/ubuntu/git-completion.bash',
     owner  => $username,
     group  => $username,
