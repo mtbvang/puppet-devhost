@@ -116,6 +116,20 @@ class devhost::ubuntu::trusty::config ($username = $devhost::username, $userhome
     mode    => 644,
   }
 
+  file { "${userhome}/.bashrc":
+    source => 'puppet:///modules/devhost/ubuntu/bashrc',
+    owner  => $username,
+    group  => $username,
+    mode   => 644,
+  }
+
+  file { "${userhome}/.bash_aliases":
+    source => 'puppet:///modules/devhost/ubuntu/bash_aliases',
+    owner  => $username,
+    group  => $username,
+    mode   => 644,
+  }
+
   exec { 'setDefaultTerminal':
     command   => "gsettings set org.gnome.desktop.default-applications.terminal exec /usr/bin/gnome-terminal",
     path      => ['/usr/bin', '/bin', '/sbin'],
