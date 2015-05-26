@@ -112,7 +112,7 @@ resetPwd() {
 
 removeAmazon() {
 	gsettings set com.canonical.Unity.Lenses disabled-scopes "['more_suggestions-amazon.scope', 'more_suggestions-u1ms.scope', 'more_suggestions-populartracks.scope', 'music-musicstore.scope', 'more_suggestions-ebay.scope', 'more_suggestions-ubuntushop.scope', 'more_suggestions-skimlinks.scope']"
-	sudo rm /usr/share/applications/ubuntu-amazon-default.desktop
+	sudo rm -f /usr/share/applications/ubuntu-amazon-default.desktop
 }
 
 # Command line options with default values.
