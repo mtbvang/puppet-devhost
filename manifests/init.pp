@@ -69,7 +69,7 @@ class devhost (
   $installVagrant        = true,
   $installPhing          = true,
   $uninstallPkgs         = $devhost::params::uninstallPkgs,
-  $dockerVersion         = '1.3.1',
+  $dockerVersion         = '1.6.2',
   $dockerServiceProvider = 'upstart',
   $vagrantDownloadUrl    = "https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb",
   $vagrantHostPluginVersion        = "2.1.5",
