@@ -71,10 +71,11 @@ Requires Ubuntu 14.04 64bit for docker. Requires curl to download the boostrap s
 On a clean Ubuntu 14.04 64bit OS in  a working or tmp folder run the following to download and the bootstrap script to 
 kick things off:
 
-- sudo curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh
-- sudo chmod +x bootstrap.sh
-- sudo ./bootstrap.sh
-
+```sh
+sudo curl -O https://raw.githubusercontent.com/mtbvang/devhost/master/bootstrap.sh
+sudo chmod +x bootstrap.sh
+sudo ./bootstrap.sh
+```
 Look at the boostrap files for options that can be set through arguments.
 
 ## Usage
